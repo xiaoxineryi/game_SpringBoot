@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: GameAdmin
+    password: 12345678
+    url: jdbc:mysql://localhost:3306/Game?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto:create
+
+
+server:
+  port: 8080
+
+logging:
+  file:
+    path: "./log"

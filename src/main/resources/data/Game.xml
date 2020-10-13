@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Games>
+    <Game>
+        <gameID>1</gameID>
+        <gameName>沙漠掘金</gameName>
+    </Game>
+    <Game>
+        <gameID>2</gameID>
+        <gameName>逻辑对决</gameName>
+    </Game>
+</Games>
