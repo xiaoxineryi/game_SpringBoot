@@ -1,6 +1,7 @@
 package com.kaito.game.Config.handler;
 
 import com.kaito.game.Controller.Reponse.GlobalResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,11 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.nio.charset.Charset;
+import java.util.LinkedList;
+
 @ControllerAdvice
+@Slf4j
 public class GlobalResponseHandler  implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
@@ -26,6 +31,7 @@ public class GlobalResponseHandler  implements ResponseBodyAdvice<Object> {
      */
     @Override
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+
         final var returnType = methodParameter.getParameterType();
         if (returnType.equals(Void.TYPE)) {
             return GlobalResponse.success(null);

@@ -23,6 +23,6 @@ public class SecurityTokenUtil {
 
     public boolean validateToken(String userName, String token) {
         Optional<UserEntity> userEntity = userRepository.getUserEntityByUserToken(token);
-        return userName == userEntity.get().getUserToken();
+        return userName.equals(userEntity.get().getUserName());
     }
 }
