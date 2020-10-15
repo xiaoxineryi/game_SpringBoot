@@ -37,4 +37,6 @@ CREATE TABLE `Game`.`friends` (
   
   ALTER TABLE `Game`.`user` 
 ADD COLUMN `userToken` VARCHAR(60) NULL AFTER `userPwd`;
+ALTER TABLE `Game`.`user` 
+ADD COLUMN `userAuth` VARCHAR(60) NULL AFTER `userPwd`;
 

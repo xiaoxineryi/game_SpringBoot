@@ -2,7 +2,8 @@ package com.kaito.game.Service.ServiceImpl;
 
 import com.kaito.game.Factory.GameFactory;
 import com.kaito.game.Service.GameService;
-import com.kaito.game.dao.entity.Game;
+
+import com.kaito.game.dao.entity.GameEntity;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -20,8 +21,8 @@ public class GameServiceImpl implements GameService {
     GameFactory gameFactory;
 
     @Override
-    public List<Game> getGames() {
-        List<Game> gameList = new ArrayList<>();
+    public List<GameEntity> getGames() {
+        List<GameEntity> gameList = new ArrayList<>();
         SAXReader reader = new SAXReader();
         try {
             Document doc = reader.read("./src/main/resources/data/Game.xml");

@@ -8,16 +8,19 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "game")
-public class Game {
+public class GameEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int gameID;
 
     private String gameName;
 
-    public Game(int gameID, String gameName) {
+    public GameEntity(int gameID, String gameName) {
         this.gameID = gameID;
         this.gameName = gameName;
     }
 
+    public GameEntity() {
+
+    }
 }

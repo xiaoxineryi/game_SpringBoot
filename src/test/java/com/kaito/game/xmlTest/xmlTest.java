@@ -4,7 +4,7 @@ import com.kaito.game.Config.JpaConfig;
 import com.kaito.game.GameApplication;
 import com.kaito.game.Service.GameService;
 import com.kaito.game.Service.ServiceImpl.GameServiceImpl;
-import com.kaito.game.dao.entity.Game;
+import com.kaito.game.dao.entity.GameEntity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class xmlTest {
     GameService gameService;
     @Test
     public void test(){
-        List<Game> gameList = gameService.getGames();
-        for (Game game:gameList) {
+        List<GameEntity> gameList = gameService.getGames();
+        for (GameEntity game:gameList) {
             System.out.println(game);
         }
     }

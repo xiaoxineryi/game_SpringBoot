@@ -1,6 +1,6 @@
 package com.kaito.game.Controller;
 
-import com.kaito.game.dao.entity.Game;
+
 import com.kaito.game.dao.repository.GameRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/game")
 @Slf4j
+
 public class GameController {
     @Autowired
     GameRepository gameRepository;

@@ -1,7 +1,8 @@
 package com.kaito.game.Factory;
 
-import com.kaito.game.dao.entity.Game;
+
+import com.kaito.game.dao.entity.GameEntity;
 
 public interface GameFactory {
-    Game createGame(Integer id,String name);
+    GameEntity createGame(Integer id, String name);
 }

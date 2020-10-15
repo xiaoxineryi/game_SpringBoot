@@ -2,7 +2,8 @@ package com.kaito.game.JpaTest;
 
 import com.kaito.game.Config.JpaConfig;
 import com.kaito.game.GameApplication;
-import com.kaito.game.dao.entity.Game;
+
+import com.kaito.game.dao.entity.GameEntity;
 import com.kaito.game.dao.repository.GameRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,6 @@ public class JpaTest {
     GameRepository gameRepository;
     @Test
     public void test(){
-        gameRepository.save(new Game(2,"逻辑对决"));
+        gameRepository.save(new GameEntity(2,"逻辑对决"));
     }
 }
