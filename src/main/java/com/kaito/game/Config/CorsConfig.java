@@ -9,24 +9,12 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class CorsConfig {
-    private static String[] originsVal = new String[]{
-            "127.0.0.1:8080",
-            "localhost:8080",
-            "google.com"
-    };
 
-    private void addAllowedOrigins(CorsConfiguration corsConfiguration) {
-        for (String origin : originsVal) {
-            corsConfiguration.addAllowedOrigin("http://" + origin);
-            corsConfiguration.addAllowedOrigin("https://" + origin);
-            corsConfiguration.addAllowedOrigin("ws://"+origin);
-        }
-    }
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        this.addAllowedOrigins(corsConfiguration);
+
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedOrigin("*");
