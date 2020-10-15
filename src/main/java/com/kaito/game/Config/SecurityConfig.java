@@ -42,6 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
+        httpSecurity.sessionManagement().maximumSessions(1);
     }
 }
