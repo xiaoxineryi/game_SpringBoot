@@ -1,6 +1,7 @@
 package com.kaito.game.Security;
 
 import com.kaito.game.Utils.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +23,7 @@ import java.util.Optional;
  * 自动登录实现：就是直接在浏览器上存储用户名和帐号token，然后每次执行操作的时候发送请求进行过滤，验证token即可。
  * 没有必要每次跳转页面等都要通过token来获取用户名
  */
+@Slf4j
 public class SecurityUserFilter extends OncePerRequestFilter {
 
     @Qualifier("tokenUserDetailsServiceImpl")
@@ -36,9 +38,10 @@ public class SecurityUserFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(TOKENHEADER);
+        logger.info("正在执行权限检查");
         if (token !=null){
             Optional<String> userName = securityTokenUtil.getUserNameByToken(token);
-            logger.info("the userName is "+userName);
+            logger.info("the userName is "+userName.get());
             if (userName.isPresent() && SecurityContextHolder.getContext().getAuthentication() == null){
                 // 如果有这个帐号的话，就赋予相应的权限
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userName.get());
