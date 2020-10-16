@@ -1,8 +1,10 @@
 package com.kaito.game.Service.ServiceImpl;
 
+import com.kaito.game.Exception.CustomerException;
 import com.kaito.game.Factory.GameFactory;
 import com.kaito.game.Service.GameService;
 
+import com.kaito.game.Utils.StatusEnum;
 import com.kaito.game.dao.entity.GameEntity;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -41,5 +43,14 @@ public class GameServiceImpl implements GameService {
         }
 
         return gameList;
+    }
+    public String getGameNameById(int id) throws CustomerException {
+        List<GameEntity> games = getGames();
+        for (GameEntity game : games){
+            if (game.getGameID() == id){
+                return game.getGameName();
+            }
+        }
+        throw new CustomerException(StatusEnum.CANT_FIND_GAME);
     }
 }

@@ -25,6 +25,7 @@ public class LobbySessionManagerServiceImpl implements LobbySessionManagerServic
         return sessionHashtable.get(userName);
     }
 
+
     @Override
     public Collection<Session> getSessionList() {
         return sessionHashtable.values();

@@ -41,10 +41,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-
+    protected void configure(HttpSecurity            httpSecurity) throws Exception {
+//        httpSecurity.authorizeRequests().antMatchers(
+//                "/session/invalid"
+//        ).permitAll().anyRequest().authenticated();
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.sessionManagement().maximumSessions(1);
+        httpSecurity.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true).expiredUrl("/session/invalid");
+        httpSecurity.csrf().disable();
     }
 
 

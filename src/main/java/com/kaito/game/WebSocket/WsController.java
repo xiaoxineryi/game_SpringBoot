@@ -17,7 +17,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.Collection;
 
-@ServerEndpoint(value = "/page_room/{userName}",configurator = MyEndpointConfig.class)
+@ServerEndpoint(value = "/lobby/{userName}",configurator = MyEndpointConfig.class)
 @Slf4j
 @Component
 public class WsController {
