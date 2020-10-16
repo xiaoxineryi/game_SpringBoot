@@ -1,6 +1,9 @@
 package com.kaito.game.BO;
 
+import com.kaito.game.Exception.CustomerException;
+import com.kaito.game.Factory.GameFactory;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.websocket.Session;
 import java.util.Hashtable;

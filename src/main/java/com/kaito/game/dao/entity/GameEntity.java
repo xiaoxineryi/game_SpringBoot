@@ -15,9 +15,11 @@ public class GameEntity {
 
     private String gameName;
 
-    public GameEntity(int gameID, String gameName) {
+    private String gameClass;
+    public GameEntity(int gameID, String gameName,String gameClass) {
         this.gameID = gameID;
         this.gameName = gameName;
+        this.gameClass = gameClass;
     }
 
     public GameEntity() {

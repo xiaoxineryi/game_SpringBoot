@@ -19,6 +19,7 @@ import java.util.List;
 
 @Service
 public class GameServiceImpl implements GameService {
+
     @Autowired
     GameFactory gameFactory;
 
@@ -34,8 +35,9 @@ public class GameServiceImpl implements GameService {
                 Element e = it.next();
                 Element gameID = e.element("gameID");
                 Element gameName = e.element("gameName");
+                Element gameClass = e.element("gameClass");
                 gameList.add(gameFactory.createGame(Integer.valueOf(gameID.getStringValue()),
-                        gameName.getStringValue()));
+                        gameName.getStringValue(),gameClass.getStringValue()));
             }
         } catch (DocumentException e) {
             System.out.println("找不到对应文件");
@@ -44,11 +46,11 @@ public class GameServiceImpl implements GameService {
 
         return gameList;
     }
-    public String getGameNameById(int id) throws CustomerException {
+    public String getGameClassById(int id) throws CustomerException {
         List<GameEntity> games = getGames();
         for (GameEntity game : games){
             if (game.getGameID() == id){
-                return game.getGameName();
+                return game.getGameClass();
             }
         }
         throw new CustomerException(StatusEnum.CANT_FIND_GAME);

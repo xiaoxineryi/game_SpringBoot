@@ -18,6 +18,6 @@ public class JpaTest {
     GameRepository gameRepository;
     @Test
     public void test(){
-        gameRepository.save(new GameEntity(2,"逻辑对决"));
+        gameRepository.save(new GameEntity(2,"逻辑对决","T"));
     }
 }
