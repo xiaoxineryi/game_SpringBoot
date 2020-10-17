@@ -10,4 +10,7 @@ public interface RoomService {
     Object startGame(int roomID) throws Exception;
 
     Object play(int roomID, Object o) throws CustomerException;
+
+    void removeSession(String userName);
+    void removeRoomSession(int roomID,String userName);
 }

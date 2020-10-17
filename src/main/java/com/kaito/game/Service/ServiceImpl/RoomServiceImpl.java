@@ -61,6 +61,21 @@ public class RoomServiceImpl implements RoomService {
         return roomBO.getGameBO().excute(o);
     }
 
+    public void removeRoomSession(int roomID,String userName){
+        for (RoomBO roomBO:rooms.values()){
+            if (roomBO.getRoomID() == roomID){
+                roomBO.removeUser(userName);
+            }
+        }
+    }
+
+    @Override
+    public void removeSession(String userName) {
+        for (int roomID : rooms.keySet()){
+            removeRoomSession(roomID,userName);
+        }
+    }
+
     private GameBO initGame(RoomBO roomBO, String className) throws Exception {
         String path = "com.kaito.game.BO.GameImpl.";
         Class clz = Class.forName(path+className+"."+className);
@@ -70,5 +85,6 @@ public class RoomServiceImpl implements RoomService {
         gameBo.setTempNumber(roomBO.getTempNumber());
         return gameBo;
     }
+
 
 }
