@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SessionController {
     @GetMapping("/session/invalid")
+
     public CustomerException sessionInvalid(){
         return new CustomerException(StatusEnum.WRONG_TOKEN_FOR_USER);
     }

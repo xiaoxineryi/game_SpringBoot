@@ -1,5 +1,5 @@
 CREATE SCHEMA `Game` DEFAULT CHARACTER SET utf8 ;
-use game
+use game;
 CREATE TABLE `Game`.`new_table` (
   `userID` INT NOT NULL AUTO_INCREMENT,
   `userName` VARCHAR(45) NOT NULL,
