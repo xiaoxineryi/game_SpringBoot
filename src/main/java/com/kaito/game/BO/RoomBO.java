@@ -27,4 +27,11 @@ public class RoomBO {
     }
 
 
+    public void removeUser(String userName) {
+        players.remove(userName);
+        tempNumber--;
+        if (gameBO != null){
+            gameBO.removePlayer(userName);
+        }
+    }
 }

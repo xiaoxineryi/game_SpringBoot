@@ -9,4 +9,6 @@ public interface GameBO {
 
     void setPlayers(Hashtable<String, Session> players);
     void setTempNumber(int tempNumber);
+
+    void removePlayer(String name);
 }

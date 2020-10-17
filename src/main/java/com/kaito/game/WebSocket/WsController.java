@@ -29,9 +29,14 @@ public class WsController {
     @OnOpen
     public void OnOpen(Session session, @PathParam("userName") String userName){
         lobbySessionManagerService.put(userName,session);
-        sendMessage("好友"+userName+"已经上线");
-        System.out.println(session);
+        sendUpMsg(userName);
+    }
 
+    private void sendUpMsg(String userName) {
+        Collection<Session> sessions = lobbySessionManagerService.getSessionList();
+        for (Session session:sessions){
+            session.getAsyncRemote().sendObject(userName);
+        }
     }
 
     @OnMessage
@@ -41,7 +46,11 @@ public class WsController {
     @OnClose
     public void OnClose(Session session,@PathParam("userName") String userName){
         lobbySessionManagerService.remove(userName);
-        sendMessage("用户"+userName+"退出");
+        sendDownMsg(userName);
+    }
+
+    private void sendDownMsg(String userName) {
+
     }
 
     public void sendMessage(String msg){
