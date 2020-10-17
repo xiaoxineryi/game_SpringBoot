@@ -8,4 +8,6 @@ public interface RoomService {
     RoomDTO createRoom(RoomCreateRequest roomCreateRequest);
 
     Object startGame(int roomID) throws Exception;
+
+    Object play(int roomID, Object o) throws CustomerException;
 }

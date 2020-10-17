@@ -47,13 +47,23 @@ public class RoomServiceImpl implements RoomService {
         }
         String className = gameService.getGameClassById(roomBO.getType());
         GameBO gameBO = initGame(roomBO,className);
+        roomBO.setGameBO(gameBO);
         Object o = gameBO.initGame();
         return o;
     }
 
+    @Override
+    public Object play(int roomID, Object o) throws CustomerException {
+        RoomBO roomBO = rooms.get(roomID);
+        if (roomBO == null){
+            throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
+        }
+        return roomBO.getGameBO().excute(o);
+    }
+
     private GameBO initGame(RoomBO roomBO, String className) throws Exception {
         String path = "com.kaito.game.BO.GameImpl.";
-        Class clz = Class.forName(path+className);
+        Class clz = Class.forName(path+className+"."+className);
         Constructor constructor = clz.getConstructor(null);
         GameBO gameBo = (GameBO) constructor.newInstance();
         gameBo.setPlayers(roomBO.getPlayers());

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @PreAuthorize("hasRole('ROLE_GAMER')")
 @RequestMapping("/room")
@@ -25,5 +27,11 @@ public class RoomController {
     public Object startGame(@RequestParam(name = "roomID") int roomID) throws Exception {
         Object o  = roomService.startGame(roomID);
         return o;
+    }
+
+    @PostMapping("/play/{roomID}")
+    public Object play(@PathVariable ("roomID") int roomID,@RequestBody Object o) throws CustomerException {
+        Object object = roomService.play(roomID,o);
+        return object;
     }
 }
