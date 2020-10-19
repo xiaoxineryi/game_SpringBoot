@@ -28,6 +28,7 @@ public class RoomServiceImpl implements RoomService {
     @Autowired
     GameService gameService;
 
+
     @Override
     public RoomDTO createRoom(RoomCreateRequest roomCreateRequest) {
         Random r = new Random();
@@ -75,6 +76,16 @@ public class RoomServiceImpl implements RoomService {
         RoomBO roomBO = rooms.get(roomID);
         roomBO.addUser(userName,session);
 
+    }
+
+    @Override
+    public boolean checkAtRoom(String userName) {
+        for (RoomBO roomBO:rooms.values()){
+            if (roomBO.getPlayers().keySet().contains(userName)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

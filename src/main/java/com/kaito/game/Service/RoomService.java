@@ -17,6 +17,6 @@ public interface RoomService {
 
     void enterRoom(int roomID, String userName, Session session);
 
-
+    boolean checkAtRoom(String userName);
     void quitRoom(int roomID, String userName);
 }
