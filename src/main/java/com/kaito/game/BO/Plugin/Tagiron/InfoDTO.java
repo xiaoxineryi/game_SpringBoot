@@ -1,4 +1,4 @@
-package com.kaito.game.BO.GameImpl.Tagiron;
+package com.kaito.game.BO.Plugin.Tagiron;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

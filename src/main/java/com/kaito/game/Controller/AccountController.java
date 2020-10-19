@@ -19,7 +19,7 @@ public class AccountController {
 
     @PostMapping("/login")
     public UserDTO login(@RequestBody UserLoginRequest userLoginRequest){
-        userService.getUserByUserName(userLoginRequest.getUserName());
+        userService.getUserByUserName();
         return new UserDTO(userLoginRequest.getUserName());
     }
 }

@@ -4,7 +4,7 @@ import javax.websocket.Session;
 import java.util.Hashtable;
 
 public interface GameBO {
-    Object initGame();
+    Object initGame(RoomBO roomBO, String className) throws Exception;
     Object excute(Object o);
 
     void setPlayers(Hashtable<String, Session> players);

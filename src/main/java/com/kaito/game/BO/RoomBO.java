@@ -34,4 +34,9 @@ public class RoomBO {
             gameBO.removePlayer(userName);
         }
     }
+    public void addUser(String userName,Session session){
+        players.put(userName,session);
+        tempNumber ++;
+    }
+
 }
