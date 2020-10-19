@@ -28,7 +28,11 @@ public  class GameBOImpl implements GameBO {
     public  Object excute(Object o){
         return gameExtra.excute(o);
     }
-
+    public void sendObject(Object o){
+        for (Session session:players.values()){
+            session.getAsyncRemote().sendObject(o);
+        }
+    }
     @Override
     public void setPlayers(Hashtable<String, Session> players) {
         this.players = players;

@@ -84,15 +84,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
 
-//    private GameBO initGame(RoomBO roomBO, String className) throws Exception {
-//        String path = "com.kaito.game.BO.GameImpl.";
-//        Class clz = Class.forName(path+className+"."+className);
-//        Constructor constructor = clz.getConstructor(null);
-//        GameBO gameBo = (GameBO) constructor.newInstance();
-//        gameBo.setPlayers(roomBO.getPlayers());
-//        gameBo.setTempNumber(roomBO.getTempNumber());
-//        return gameBo;
-//    }
+
 
 
 }
