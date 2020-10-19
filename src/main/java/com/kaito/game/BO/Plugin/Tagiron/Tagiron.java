@@ -1,12 +1,10 @@
-package com.kaito.game.BO.GameImpl.Tagiron;
+package com.kaito.game.BO.Plugin.Tagiron;
 
-import com.kaito.game.BO.GameBO;
 import com.kaito.game.BO.GameImpl.GameBOImpl;
+import com.kaito.game.BO.Plugin.GameExtra;
+import com.kaito.game.BO.RoomBO;
 
-import javax.websocket.Session;
-import java.util.Hashtable;
-
-public class Tagiron extends GameBOImpl {
+public class Tagiron implements GameExtra {
 
     @Override
     public Object initGame() {

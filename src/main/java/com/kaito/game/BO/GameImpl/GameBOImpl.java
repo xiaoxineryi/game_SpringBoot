@@ -1,20 +1,33 @@
 package com.kaito.game.BO.GameImpl;
 
 import com.kaito.game.BO.GameBO;
-import com.kaito.game.BO.GameImpl.Tagiron.InfoDTO;
+import com.kaito.game.BO.Plugin.GameExtra;
+import com.kaito.game.BO.RoomBO;
 
 import javax.websocket.Session;
+import java.lang.reflect.Constructor;
 import java.util.Hashtable;
 
-public abstract class GameBOImpl implements GameBO {
+public  class GameBOImpl implements GameBO {
     Hashtable<String, Session> players;
     int tempNumber;
+    GameExtra gameExtra;
+    @Override
+    public  Object initGame(RoomBO roomBO, String className) throws Exception {
+        String path = "com.kaito.game.BO.Plugin.";
+        Class clz = Class.forName(path+className+"."+className);
+        Constructor constructor = clz.getConstructor(null);
+        GameExtra game = (GameExtra) constructor.newInstance();
+        gameExtra = game;
+        this.setPlayers(roomBO.getPlayers());
+        this.setTempNumber(roomBO.getTempNumber());
+        return gameExtra.initGame();
+    }
 
     @Override
-    public abstract Object initGame();
-
-    @Override
-    public abstract Object excute(Object o);
+    public  Object excute(Object o){
+        return gameExtra.excute(o);
+    }
 
     @Override
     public void setPlayers(Hashtable<String, Session> players) {

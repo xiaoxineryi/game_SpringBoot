@@ -1,6 +1,7 @@
 package com.kaito.game.Service.ServiceImpl;
 
 import com.kaito.game.BO.GameBO;
+import com.kaito.game.BO.GameImpl.GameBOImpl;
 import com.kaito.game.BO.RoomBO;
 import com.kaito.game.Controller.Request.RoomCreateRequest;
 import com.kaito.game.DTO.RoomDTO;
@@ -12,6 +13,7 @@ import com.kaito.game.Utils.StatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.websocket.Session;
 import java.lang.reflect.Constructor;
 import java.util.Hashtable;
 import java.util.Optional;
@@ -46,9 +48,8 @@ public class RoomServiceImpl implements RoomService {
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
         }
         String className = gameService.getGameClassById(roomBO.getType());
-        GameBO gameBO = initGame(roomBO,className);
-        roomBO.setGameBO(gameBO);
-        Object o = gameBO.initGame();
+        GameBO gameBO = new GameBOImpl();
+        Object o = gameBO.initGame(roomBO,className);
         return o;
     }
 
@@ -70,21 +71,28 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void removeSession(String userName) {
-        for (int roomID : rooms.keySet()){
-            removeRoomSession(roomID,userName);
-        }
+    public void enterRoom(int roomID, String userName, Session session) {
+        RoomBO roomBO = rooms.get(roomID);
+        roomBO.addUser(userName,session);
+
     }
 
-    private GameBO initGame(RoomBO roomBO, String className) throws Exception {
-        String path = "com.kaito.game.BO.GameImpl.";
-        Class clz = Class.forName(path+className+"."+className);
-        Constructor constructor = clz.getConstructor(null);
-        GameBO gameBo = (GameBO) constructor.newInstance();
-        gameBo.setPlayers(roomBO.getPlayers());
-        gameBo.setTempNumber(roomBO.getTempNumber());
-        return gameBo;
+    @Override
+    public void quitRoom(int roomID, String userName) {
+        RoomBO roomBO = rooms.get(roomID);
+        roomBO.removeUser(userName);
     }
+
+
+//    private GameBO initGame(RoomBO roomBO, String className) throws Exception {
+//        String path = "com.kaito.game.BO.GameImpl.";
+//        Class clz = Class.forName(path+className+"."+className);
+//        Constructor constructor = clz.getConstructor(null);
+//        GameBO gameBo = (GameBO) constructor.newInstance();
+//        gameBo.setPlayers(roomBO.getPlayers());
+//        gameBo.setTempNumber(roomBO.getTempNumber());
+//        return gameBo;
+//    }
 
 
 }
