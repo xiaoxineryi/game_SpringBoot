@@ -12,14 +12,14 @@ public class FriendsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int userAID;
+    private String userA;
 
-    private int userBID;
+    private String userB;
 
-    public FriendsEntity(int id, int userAID, int userBID) {
+    public FriendsEntity(int id, String userA, String userB) {
         this.id = id;
-        this.userAID = userAID;
-        this.userBID = userBID;
+        this.userA = userA;
+        this.userB = userB;
     }
 
 

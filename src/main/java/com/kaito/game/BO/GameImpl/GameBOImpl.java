@@ -8,7 +8,7 @@ import java.util.Hashtable;
 
 public abstract class GameBOImpl implements GameBO {
     Hashtable<String, Session> players;
-    int tempNUmber;
+    int tempNumber;
 
     @Override
     public abstract Object initGame();
@@ -23,12 +23,12 @@ public abstract class GameBOImpl implements GameBO {
 
     @Override
     public void setTempNumber(int tempNumber) {
-        this.tempNUmber = tempNumber;
+        this.tempNumber = tempNumber;
     }
 
     @Override
     public void removePlayer(String name) {
         players.remove(name);
-        tempNUmber -- ;
+        tempNumber -- ;
     }
 }

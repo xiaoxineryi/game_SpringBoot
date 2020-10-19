@@ -39,4 +39,19 @@ CREATE TABLE `Game`.`friends` (
 ADD COLUMN `userToken` VARCHAR(60) NULL AFTER `userPwd`;
 ALTER TABLE `Game`.`user` 
 ADD COLUMN `userAuth` VARCHAR(60) NULL AFTER `userPwd`;
+ALTER TABLE `Game`.`friends`
+DROP FOREIGN KEY `userA`,
+DROP FOREIGN KEY `userB`;
+ALTER TABLE `Game`.`friends`
+CHANGE COLUMN `userAID` `userA` VARCHAR(20) NOT NULL ,
+CHANGE COLUMN `userBID` `userB` VARCHAR(20) NOT NULL ;
+ALTER TABLE `Game`.`friends`
+ADD CONSTRAINT `userA`
+  FOREIGN KEY (`userA`)
+  REFERENCES `Game`.`user` (`userName`)
+  ON DELETE RESTRICT
+  ON UPDATE RESTRICT,
+ADD CONSTRAINT `userB`
+  FOREIGN KEY (`userB`)
+  REFERENCES `Game`.`user` (`userName`);
 
