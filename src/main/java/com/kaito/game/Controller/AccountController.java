@@ -2,7 +2,9 @@ package com.kaito.game.Controller;
 
 
 import com.kaito.game.Controller.Request.UserLoginRequest;
+import com.kaito.game.Controller.Request.UserRegisterRequest;
 import com.kaito.game.DTO.UserDTO;
+import com.kaito.game.Exception.CustomerException;
 import com.kaito.game.Service.GameService;
 import com.kaito.game.Service.UserService;
 import com.kaito.game.dao.entity.GameEntity;
@@ -18,8 +20,12 @@ public class AccountController {
     UserService userService;
 
     @PostMapping("/login")
-    public UserDTO login(@RequestBody UserLoginRequest userLoginRequest){
-        userService.getUserByUserName(userLoginRequest.getUserName());
-        return new UserDTO(userLoginRequest.getUserName());
+    public UserDTO login(@RequestBody UserLoginRequest userLoginRequest) throws CustomerException {
+        return userService.login(userLoginRequest);
+    }
+
+    @PostMapping("/register")
+    public UserDTO register(@RequestBody UserRegisterRequest userRegisterRequest) throws CustomerException {
+        return userService.register(userRegisterRequest);
     }
 }
