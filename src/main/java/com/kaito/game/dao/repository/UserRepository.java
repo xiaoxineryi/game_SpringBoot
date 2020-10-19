@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity,Integer> {
     Optional<UserEntity> getUserEntityByUserName(String userName);
-    Optional<UserEntity> getUserEntityByUserToken(String token);
 }
