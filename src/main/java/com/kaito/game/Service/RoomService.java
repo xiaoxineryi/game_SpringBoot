@@ -1,5 +1,6 @@
 package com.kaito.game.Service;
 
+import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.Controller.Request.RoomCreateRequest;
 import com.kaito.game.DTO.RoomDTO;
 import com.kaito.game.Exception.CustomerException;
@@ -10,9 +11,9 @@ import java.util.List;
 public interface RoomService {
     RoomDTO createRoom(RoomCreateRequest roomCreateRequest);
 
-    Object startGame(int roomID) throws Exception;
+    void startGame(int roomID) throws Exception;
 
-    Object play(int roomID, Object o) throws CustomerException;
+    void play(int roomID, BaseRequest baseRequest) throws CustomerException;
 
     void removeRoomSession(int roomID,String userName);
 

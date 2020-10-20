@@ -1,5 +1,6 @@
 package com.kaito.game.Service.ServiceImpl;
 
+import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.BO.GameBO;
 import com.kaito.game.BO.GameImpl.GameBOImpl;
 import com.kaito.game.BO.RoomBO;
@@ -41,24 +42,22 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Object startGame(int roomID) throws Exception {
+    public void startGame(int roomID) throws Exception {
         RoomBO roomBO = rooms.get(roomID);
         if (roomBO == null){
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
         }
         String className = gameService.getGameClassById(roomBO.getType());
         GameBO gameBO = new GameBOImpl();
-        Object o = gameBO.initGame(roomBO,className);
-        return o;
+        gameBO.initGame(roomBO,className);
     }
 
     @Override
-    public Object play(int roomID, Object o) throws CustomerException {
+    public void play(int roomID, BaseRequest baseRequest) throws CustomerException {
         RoomBO roomBO = rooms.get(roomID);
         if (roomBO == null){
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
         }
-        return roomBO.getGameBO().excute(o);
     }
 
     public void removeRoomSession(int roomID,String userName){

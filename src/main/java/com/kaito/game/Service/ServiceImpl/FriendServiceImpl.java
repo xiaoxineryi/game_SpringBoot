@@ -19,8 +19,11 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public FriendListDTO getFriendList(String userName) {
+        //TODO:有可能是A也有可能是B
         FriendListDTO friendListDTO = new FriendListDTO();
         List<String> friendsList = friendRepository.getAllUserBByUserA(userName);
+        List<String> friendsList2 = friendRepository.getAllUserAByUserB(userName);
+        friendsList.addAll(friendsList2);
         for (String name:friendsList){
             if (roomService.checkAtRoom(name)){
                 friendListDTO.addOnline(name);
@@ -28,6 +31,7 @@ public class FriendServiceImpl implements FriendService {
                 friendListDTO.addOffline(name);
             }
         }
+
         return friendListDTO;
     }
 }

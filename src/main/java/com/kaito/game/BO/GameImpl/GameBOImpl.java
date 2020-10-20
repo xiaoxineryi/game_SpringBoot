@@ -1,36 +1,46 @@
 package com.kaito.game.BO.GameImpl;
 
+import com.kaito.game.BO.Base.BaseRequest;
+import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.GameBO;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.RoomBO;
 
 import javax.websocket.Session;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 
 public  class GameBOImpl implements GameBO {
     Hashtable<String, Session> players;
-    int tempNumber;
     GameExtra gameExtra;
     @Override
-    public  Object initGame(RoomBO roomBO, String className) throws Exception {
+    public  void initGame(RoomBO roomBO, String className) throws Exception {
         String path = "com.kaito.game.BO.Plugin.";
         Class clz = Class.forName(path+className+"."+className);
         Constructor constructor = clz.getConstructor(null);
         GameExtra game = (GameExtra) constructor.newInstance();
         gameExtra = game;
+
         this.setPlayers(roomBO.getPlayers());
-        this.setTempNumber(roomBO.getTempNumber());
-        return gameExtra.initGame();
+        BaseResponse o =  gameExtra.initGame(new ArrayList<String>(players.keySet()));
+        sendObject(o);
+
     }
 
     @Override
-    public  Object excute(Object o){
-        return gameExtra.excute(o);
+    public void excute(BaseRequest o){
+        BaseResponse baseResponse = gameExtra.excute(o);
     }
-    public void sendObject(Object o){
-        for (Session session:players.values()){
-            session.getAsyncRemote().sendObject(o);
+
+    private void sendObject(BaseResponse baseResponse){
+        List<String> names = baseResponse.getReceivers();
+        for (String name:names){
+            if (players.keySet().contains(name)){
+                players.get(name).getAsyncRemote().sendObject(baseResponse);
+            }
         }
     }
     @Override
@@ -38,14 +48,10 @@ public  class GameBOImpl implements GameBO {
         this.players = players;
     }
 
-    @Override
-    public void setTempNumber(int tempNumber) {
-        this.tempNumber = tempNumber;
-    }
+
 
     @Override
     public void removePlayer(String name) {
         players.remove(name);
-        tempNumber -- ;
     }
 }

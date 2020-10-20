@@ -1,5 +1,6 @@
 package com.kaito.game.Controller;
 
+import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.Controller.Request.RoomCreateRequest;
 import com.kaito.game.DTO.RoomDTO;
 import com.kaito.game.Exception.CustomerException;
@@ -25,15 +26,13 @@ public class RoomController {
     }
     
     @GetMapping("/start")
-    public Object startGame(@RequestParam(name = "roomID") int roomID) throws Exception {
-        Object o  = roomService.startGame(roomID);
-        return o;
+    public void startGame(@RequestParam(name = "roomID") int roomID) throws Exception {
+        roomService.startGame(roomID);
     }
 
     @PostMapping("/play/{roomID}")
-    public Object play(@PathVariable ("roomID") int roomID,@RequestBody Object o) throws CustomerException {
-        Object object = roomService.play(roomID,o);
-        return object;
+    public void play(@PathVariable ("roomID") int roomID,@RequestBody BaseRequest baseRequest) throws CustomerException {
+        roomService.play(roomID,baseRequest);
     }
 
     @GetMapping("/getRooms")

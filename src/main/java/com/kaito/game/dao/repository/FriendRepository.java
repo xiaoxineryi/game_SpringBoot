@@ -11,4 +11,8 @@ public interface FriendRepository extends JpaRepository<FriendsEntity,Integer> {
     @Query(value = "select f.userB from FriendsEntity f " +
             "where f.userA = ?1")
     List<String> getAllUserBByUserA(String userName);
+
+    @Query(value = "select f.userA from FriendsEntity f " +
+            "where f.userB = ?1")
+    List<String> getAllUserAByUserB(String userName);
 }

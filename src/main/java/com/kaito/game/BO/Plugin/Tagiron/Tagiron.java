@@ -1,19 +1,25 @@
 package com.kaito.game.BO.Plugin.Tagiron;
 
-import com.kaito.game.BO.GameImpl.GameBOImpl;
+import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
-import com.kaito.game.BO.RoomBO;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Tagiron implements GameExtra {
 
     @Override
-    public Object initGame() {
-        return new InfoDTO("kaito",1);
+    public BaseResponse initGame(ArrayList<String> users) {
+        List list = new ArrayList();
+        list.add(1);
+        list.add("123");
+        return null;
     }
 
     @Override
-    public Object excute(Object o) {
-        return new InfoDTO("kaito",2);
+    public BaseResponse excute(Object o) {
+        return null;
     }
 
 }
