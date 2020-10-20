@@ -45,16 +45,10 @@ public class SecurityUserFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(TOKENHEADER);
-        String name = request.getHeader(USERNAME);
         logger.info("正在执行权限检查");
         if (token !=null){
             Optional<String> userName = securityTokenUtil.getUserNameByToken(token);
             logger.info("the userName is "+userName.get());
-            if (! userName.get().equals(name)){
-                System.out.println("name is "+name);
-                //如果携带的用户名和token不匹配
-                throw new ServletException();
-            }
             if (userName.isPresent() && SecurityContextHolder.getContext().getAuthentication() == null){
                 // 如果有这个帐号的话，就赋予相应的权限
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userName.get());

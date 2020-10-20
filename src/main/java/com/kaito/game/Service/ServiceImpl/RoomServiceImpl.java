@@ -58,6 +58,7 @@ public class RoomServiceImpl implements RoomService {
         if (roomBO == null){
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
         }
+        roomBO.getGameBO().excute(baseRequest);
     }
 
     public void removeRoomSession(int roomID,String userName){

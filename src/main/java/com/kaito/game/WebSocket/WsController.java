@@ -5,6 +5,7 @@ import com.kaito.game.Config.MyEndpointConfig;
 import com.kaito.game.DTO.UserDTO;
 import com.kaito.game.Security.SecurityTokenUtil;
 import com.kaito.game.Service.RoomService;
+import com.kaito.game.Utils.SecurityUtil;
 import com.kaito.game.Utils.WsDecoder;
 import com.kaito.game.Utils.WsEncoder;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Collection;
 
-@ServerEndpoint(value = "/room/{userName}/{roomID}/{token}",configurator = MyEndpointConfig.class
+@ServerEndpoint(value = "/room/{roomID}/{token}",configurator = MyEndpointConfig.class
         ,encoders = {WsEncoder.class}, decoders = {WsDecoder.class})
 @Slf4j
 @Component
@@ -29,12 +30,12 @@ public class WsController {
     @Autowired
     SecurityTokenUtil securityTokenUtil;
     @OnOpen
-    public void OnOpen(Session session, @PathParam("userName") String userName,
+    public void OnOpen(Session session,
                        @PathParam("roomID") int roomID,
                        @PathParam("token") String token) throws IOException {
-        if (securityTokenUtil.validateToken(userName,token)){
+        if (securityTokenUtil.validateToken(SecurityUtil.getUserName(),token)){
             System.out.println("成功");
-            roomService.enterRoom(roomID,userName,session);
+            roomService.enterRoom(roomID,SecurityUtil.getUserName(),session);
         }else {
             session.getAsyncRemote().sendObject("身份信息错误");
             session.close();
@@ -47,9 +48,9 @@ public class WsController {
         return o;
     }
     @OnClose
-    public void OnClose(Session session,@PathParam("userName") String userName,
-                        @PathParam("roomID") int roomID){
-        roomService.quitRoom(roomID,userName);
+    public void OnClose(Session session, @PathParam("roomID") int roomID,
+                        @PathParam("token") String token){
+        roomService.quitRoom(roomID, SecurityUtil.getUserName());
     }
 
 }
