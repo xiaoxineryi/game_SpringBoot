@@ -1,14 +1,20 @@
 package com.kaito.game.Service.ServiceImpl;
 
+import com.kaito.game.Controller.Request.AddFriendRequest;
 import com.kaito.game.DTO.FriendListDTO;
+import com.kaito.game.Exception.CustomerException;
 import com.kaito.game.Service.FriendService;
 import com.kaito.game.Service.RoomService;
-import com.kaito.game.Service.UserService;
+import com.kaito.game.Utils.StatusEnum;
+import com.kaito.game.dao.entity.FriendsEntity;
+import com.kaito.game.dao.entity.UserEntity;
 import com.kaito.game.dao.repository.FriendRepository;
+import com.kaito.game.dao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FriendServiceImpl implements FriendService {
@@ -16,6 +22,8 @@ public class FriendServiceImpl implements FriendService {
     RoomService roomService;
     @Autowired
     FriendRepository friendRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public FriendListDTO getFriendList(String userName) {
@@ -24,14 +32,34 @@ public class FriendServiceImpl implements FriendService {
         List<String> friendsList = friendRepository.getAllUserBByUserA(userName);
         List<String> friendsList2 = friendRepository.getAllUserAByUserB(userName);
         friendsList.addAll(friendsList2);
-        for (String name:friendsList){
-            if (roomService.checkAtRoom(name)){
+        for (String name : friendsList) {
+            if (roomService.checkAtRoom(name)) {
                 friendListDTO.addOnline(name);
-            }else {
+            } else {
                 friendListDTO.addOffline(name);
             }
         }
-
         return friendListDTO;
+    }
+
+    @Override
+    public Boolean addFriend(AddFriendRequest addFriendRequest) throws CustomerException {
+        String userName = addFriendRequest.getUserA();
+        String friendName = addFriendRequest.getUserB();
+        List<String> friendList = friendRepository.getAllUserAByUserB(userName);
+        List<String> friendList1 = friendRepository.getAllUserBByUserA(userName);
+        friendList.addAll(friendList1);
+        if (friendList.contains(friendName)) {
+            throw new CustomerException(StatusEnum.HAVE_HAD_FRIEND);
+        }
+        Optional<UserEntity> userEntity = userRepository.getUserEntityByUserName(friendName);
+        if (userEntity.isEmpty()) {
+            throw new CustomerException(StatusEnum.CANT_FIND_USER);
+        }
+        FriendsEntity friendsEntity = new FriendsEntity();
+        friendsEntity.setUserA(userName);
+        friendsEntity.setUserB(friendName);
+        friendRepository.save(friendsEntity);
+        return true;
     }
 }

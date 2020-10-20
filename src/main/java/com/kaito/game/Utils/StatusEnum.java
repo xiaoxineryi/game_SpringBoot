@@ -10,7 +10,9 @@ public enum StatusEnum {
     FORBIDDEN(403, "请登录后访问"),
     CANT_FIND_GAME(404, "您输入的游戏编号不存在"),
     CANT_FIND_ROOM(405, "您输入的房间号不存在"),
-    REPEAT_ACCOUNT(406, "账号已被注册");
+    REPEAT_ACCOUNT(406, "账号已被注册"),
+    CANT_FIND_USER(407, "用户不存在"),
+    HAVE_HAD_FRIEND(408, "已有该用户好友");
 
     StatusEnum(int code, String message) {
         this.code = code;
