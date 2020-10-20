@@ -15,8 +15,10 @@
             }
             var name = document.getElementById("user").value;
             var roomID = document.getElementById("room").value;
+            var token = document.getElementById("token").value;
+
             console.log(name);
-            ws = new WebSocket(url+name +"/"+roomID);
+            ws = new WebSocket(url+name +"/"+roomID+"/"+token);
             //与服务端建立连接触发
             ws.onopen = function () {
               console.log("与服务器成功建立连接")
@@ -75,6 +77,7 @@
     <br/><br/>
     用户：<input type="text" id="user">
     房间名:<input type="text" id="room">
+    token:<input type="text" id="token">
     <button onclick="joinRoom()">加入群聊</button>
     <button onclick="exitRoom()">退出群聊</button>
 </div>
