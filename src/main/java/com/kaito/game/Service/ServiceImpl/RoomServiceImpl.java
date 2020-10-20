@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.websocket.Session;
 import java.lang.reflect.Constructor;
-import java.util.Hashtable;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -94,8 +92,14 @@ public class RoomServiceImpl implements RoomService {
         roomBO.removeUser(userName);
     }
 
-
-
+    @Override
+    public List<RoomDTO> getAllRooms() {
+        List<RoomDTO> roomDTOS = new LinkedList<>();
+        for (RoomBO roomBO : rooms.values()){
+            roomDTOS.add(new RoomDTO(roomBO));
+        }
+        return roomDTOS;
+    }
 
 
 }

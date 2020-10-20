@@ -5,6 +5,7 @@ import com.kaito.game.DTO.RoomDTO;
 import com.kaito.game.Exception.CustomerException;
 
 import javax.websocket.Session;
+import java.util.List;
 
 public interface RoomService {
     RoomDTO createRoom(RoomCreateRequest roomCreateRequest);
@@ -19,4 +20,6 @@ public interface RoomService {
 
     boolean checkAtRoom(String userName);
     void quitRoom(int roomID, String userName);
+
+    List<RoomDTO> getAllRooms();
 }

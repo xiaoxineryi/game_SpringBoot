@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+import java.util.List;
 
 @RestController
 @PreAuthorize("hasRole('ROLE_GAMER')")
@@ -33,5 +34,10 @@ public class RoomController {
     public Object play(@PathVariable ("roomID") int roomID,@RequestBody Object o) throws CustomerException {
         Object object = roomService.play(roomID,o);
         return object;
+    }
+
+    @GetMapping("/getRooms")
+    public List<RoomDTO> getRooms(){
+        return roomService.getAllRooms();
     }
 }

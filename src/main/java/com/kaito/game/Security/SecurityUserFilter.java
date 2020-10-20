@@ -1,6 +1,9 @@
 package com.kaito.game.Security;
 
+import com.kaito.game.Exception.CustomerException;
 import com.kaito.game.Utils.Constants;
+import com.kaito.game.Utils.StatusEnum;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +19,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -35,13 +39,22 @@ public class SecurityUserFilter extends OncePerRequestFilter {
 
     @Value(Constants.TOKENHEADER)
     private String TOKENHEADER;
+    @Value(Constants.USERNAME)
+    private String USERNAME;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader(TOKENHEADER);
+        String name = request.getHeader(USERNAME);
         logger.info("正在执行权限检查");
         if (token !=null){
             Optional<String> userName = securityTokenUtil.getUserNameByToken(token);
             logger.info("the userName is "+userName.get());
+            if (! userName.get().equals(name)){
+                System.out.println("name is "+name);
+                //如果携带的用户名和token不匹配
+                throw new ServletException();
+            }
             if (userName.isPresent() && SecurityContextHolder.getContext().getAuthentication() == null){
                 // 如果有这个帐号的话，就赋予相应的权限
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userName.get());
