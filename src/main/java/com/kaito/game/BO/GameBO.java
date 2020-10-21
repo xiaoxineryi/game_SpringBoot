@@ -7,7 +7,8 @@ import java.util.Hashtable;
 
 public interface GameBO {
     void initGame(RoomBO roomBO, String className) throws Exception;
-    void excute(BaseRequest baseRequest);
+
+    void execute(BaseRequest baseRequest);
 
     void setPlayers(Hashtable<String, Session> players);
 

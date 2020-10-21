@@ -1,5 +1,6 @@
 package com.kaito.game.BO.Plugin.Tagiron;
 
+import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
 
@@ -18,7 +19,7 @@ public class Tagiron implements GameExtra {
     }
 
     @Override
-    public BaseResponse excute(Object o) {
+    public BaseResponse execute(BaseRequest baseRequest) {
         return null;
     }
 

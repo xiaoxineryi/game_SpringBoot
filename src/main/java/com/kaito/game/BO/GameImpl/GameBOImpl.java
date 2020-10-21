@@ -10,7 +10,6 @@ import javax.websocket.Session;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.List;
 
 public  class GameBOImpl implements GameBO {
@@ -31,8 +30,8 @@ public  class GameBOImpl implements GameBO {
     }
 
     @Override
-    public void excute(BaseRequest o){
-        BaseResponse baseResponse = gameExtra.excute(o);
+    public void execute(BaseRequest o) {
+        BaseResponse baseResponse = gameExtra.execute(o);
     }
 
     private void sendObject(BaseResponse baseResponse){
