@@ -12,4 +12,5 @@ public interface UserService {
 
     UserDTO register(UserRegisterRequest userRegisterRequest) throws CustomerException;
 
+    String getUserNameByToken(String token);
 }

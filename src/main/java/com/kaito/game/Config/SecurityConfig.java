@@ -46,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                "/session/invalid"
 //        ).permitAll().anyRequest().authenticated();
         httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
+//        httpSecurity.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true);
         httpSecurity.csrf().disable();
     }
 

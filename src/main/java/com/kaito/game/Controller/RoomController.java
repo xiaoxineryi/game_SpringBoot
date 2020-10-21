@@ -26,12 +26,13 @@ public class RoomController {
     }
     
     @GetMapping("/start")
-    public void startGame(@RequestParam(name = "roomID") int roomID) throws Exception {
+    public void startGame(@PathParam("roomID") int roomID) throws Exception {
         roomService.startGame(roomID);
     }
 
-    @PostMapping("/play/{roomID}")
-    public void play(@PathVariable ("roomID") int roomID,@RequestBody BaseRequest baseRequest) throws CustomerException {
+    @PostMapping("/play")
+    public void play(@RequestParam int roomID, @RequestBody BaseRequest baseRequest) throws CustomerException {
+        System.out.println(roomID);
         roomService.play(roomID,baseRequest);
     }
 

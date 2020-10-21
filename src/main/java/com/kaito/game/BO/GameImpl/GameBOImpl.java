@@ -37,7 +37,7 @@ public  class GameBOImpl implements GameBO {
     private void sendObject(BaseResponse baseResponse){
         List<String> names = baseResponse.getReceivers();
         for (String name:names){
-            if (players.keySet().contains(name)){
+            if (players.containsKey(name)) {
                 players.get(name).getAsyncRemote().sendObject(baseResponse);
             }
         }

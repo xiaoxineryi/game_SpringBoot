@@ -5,6 +5,7 @@ import com.kaito.game.Config.MyEndpointConfig;
 import com.kaito.game.DTO.UserDTO;
 import com.kaito.game.Security.SecurityTokenUtil;
 import com.kaito.game.Service.RoomService;
+import com.kaito.game.Service.UserService;
 import com.kaito.game.Utils.SecurityUtil;
 import com.kaito.game.Utils.WsDecoder;
 import com.kaito.game.Utils.WsEncoder;
@@ -29,13 +30,18 @@ public class WsController {
     RoomService roomService;
     @Autowired
     SecurityTokenUtil securityTokenUtil;
+
+    @Autowired
+    UserService userService;
+
     @OnOpen
     public void OnOpen(Session session,
                        @PathParam("roomID") int roomID,
                        @PathParam("token") String token) throws IOException {
-        if (securityTokenUtil.validateToken(SecurityUtil.getUserName(),token)){
+        String userName = userService.getUserNameByToken(token);
+        if (securityTokenUtil.validateToken(userName, token)) {
             System.out.println("成功");
-            roomService.enterRoom(roomID,SecurityUtil.getUserName(),session);
+            roomService.enterRoom(roomID, userName, session);
         }else {
             session.getAsyncRemote().sendObject("身份信息错误");
             session.close();
@@ -50,7 +56,7 @@ public class WsController {
     @OnClose
     public void OnClose(Session session, @PathParam("roomID") int roomID,
                         @PathParam("token") String token){
-        roomService.quitRoom(roomID, SecurityUtil.getUserName());
+        roomService.quitRoom(roomID, userService.getUserNameByToken(token));
     }
 
 }

@@ -55,5 +55,10 @@ public class UserServiceImpl implements UserService {
         throw new CustomerException(StatusEnum.REPEAT_ACCOUNT);
     }
 
+    @Override
+    public String getUserNameByToken(String token) {
+        return userRepository.getUserNameByUserToken(token).get(0);
+    }
+
 
 }
