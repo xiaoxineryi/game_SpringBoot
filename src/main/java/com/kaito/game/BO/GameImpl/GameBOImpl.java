@@ -12,19 +12,20 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-public  class GameBOImpl implements GameBO {
+public class GameBOImpl implements GameBO {
     Hashtable<String, Session> players;
     GameExtra gameExtra;
+
     @Override
-    public  void initGame(RoomBO roomBO, String className) throws Exception {
+    public void initGame(RoomBO roomBO, String className) throws Exception {
         String path = "com.kaito.game.BO.Plugin.";
-        Class clz = Class.forName(path+className+"."+className);
+        Class clz = Class.forName(path + className + "." + className);
         Constructor constructor = clz.getConstructor(null);
         GameExtra game = (GameExtra) constructor.newInstance();
         gameExtra = game;
 
         this.setPlayers(roomBO.getPlayers());
-        BaseResponse o =  gameExtra.initGame(new ArrayList<String>(players.keySet()));
+        BaseResponse o = gameExtra.initGame(new ArrayList<String>(players.keySet()));
         sendObject(o);
 
     }
@@ -32,21 +33,22 @@ public  class GameBOImpl implements GameBO {
     @Override
     public void execute(BaseRequest o) {
         BaseResponse baseResponse = gameExtra.execute(o);
+        sendObject(baseResponse);
     }
 
-    private void sendObject(BaseResponse baseResponse){
+    private void sendObject(BaseResponse baseResponse) {
         List<String> names = baseResponse.getReceivers();
-        for (String name:names){
+        for (String name : names) {
             if (players.containsKey(name)) {
                 players.get(name).getAsyncRemote().sendObject(baseResponse);
             }
         }
     }
+
     @Override
     public void setPlayers(Hashtable<String, Session> players) {
         this.players = players;
     }
-
 
 
     @Override

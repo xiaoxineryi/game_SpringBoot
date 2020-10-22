@@ -31,12 +31,12 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomDTO createRoom(RoomCreateRequest roomCreateRequest) {
         Random r = new Random();
-        int random  = r.nextInt(1000);
-        while(rooms.containsKey(random)){
-            random  = r.nextInt(1000);
+        int random = r.nextInt(1000);
+        while (rooms.containsKey(random)) {
+            random = r.nextInt(1000);
         }
-        RoomBO roomBO =  roomFactory.createRoomBO(roomCreateRequest,random);
-        rooms.put(random,roomBO);
+        RoomBO roomBO = roomFactory.createRoomBO(roomCreateRequest, random);
+        rooms.put(random, roomBO);
         System.out.println(random);
         return new RoomDTO(roomBO);
     }
@@ -44,26 +44,28 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void startGame(int roomID) throws Exception {
         RoomBO roomBO = rooms.get(roomID);
-        if (roomBO == null){
+        if (roomBO == null) {
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
         }
         String className = gameService.getGameClassById(roomBO.getType());
         GameBO gameBO = new GameBOImpl();
-        gameBO.initGame(roomBO,className);
+        roomBO.setGameBO(gameBO);
+        gameBO.initGame(roomBO, className);
     }
 
     @Override
     public void play(int roomID, BaseRequest baseRequest) throws CustomerException {
         RoomBO roomBO = rooms.get(roomID);
-        if (roomBO == null){
+        if (roomBO == null) {
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
         }
+        System.out.println(baseRequest.toString());
         roomBO.getGameBO().execute(baseRequest);
     }
 
-    public void removeRoomSession(int roomID,String userName){
-        for (RoomBO roomBO:rooms.values()){
-            if (roomBO.getRoomID() == roomID){
+    public void removeRoomSession(int roomID, String userName) {
+        for (RoomBO roomBO : rooms.values()) {
+            if (roomBO.getRoomID() == roomID) {
                 roomBO.removeUser(userName);
             }
         }
@@ -72,14 +74,14 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public void enterRoom(int roomID, String userName, Session session) {
         RoomBO roomBO = rooms.get(roomID);
-        roomBO.addUser(userName,session);
+        roomBO.addUser(userName, session);
 
     }
 
     @Override
     public boolean checkAtRoom(String userName) {
-        for (RoomBO roomBO:rooms.values()){
-            if (roomBO.getPlayers().keySet().contains(userName)){
+        for (RoomBO roomBO : rooms.values()) {
+            if (roomBO.getPlayers().keySet().contains(userName)) {
                 return true;
             }
         }
@@ -95,7 +97,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<RoomDTO> getAllRooms() {
         List<RoomDTO> roomDTOS = new LinkedList<>();
-        for (RoomBO roomBO : rooms.values()){
+        for (RoomBO roomBO : rooms.values()) {
             roomDTOS.add(new RoomDTO(roomBO));
         }
         return roomDTOS;
