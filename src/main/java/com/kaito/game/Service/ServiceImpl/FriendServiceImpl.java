@@ -1,6 +1,7 @@
 package com.kaito.game.Service.ServiceImpl;
 
 import com.kaito.game.Controller.Request.AddFriendRequest;
+import com.kaito.game.DTO.FriendDTO;
 import com.kaito.game.DTO.FriendListDTO;
 import com.kaito.game.Exception.CustomerException;
 import com.kaito.game.Service.FriendService;
@@ -29,14 +30,14 @@ public class FriendServiceImpl implements FriendService {
     public FriendListDTO getFriendList(String userName) {
         //TODO:有可能是A也有可能是B
         FriendListDTO friendListDTO = new FriendListDTO();
-        List<String> friendsList = friendRepository.getAllUserBByUserA(userName);
-        List<String> friendsList2 = friendRepository.getAllUserAByUserB(userName);
+        List<FriendDTO> friendsList = friendRepository.getAllUserBByUserA(userName);
+        List<FriendDTO> friendsList2 = friendRepository.getAllUserAByUserB(userName);
         friendsList.addAll(friendsList2);
-        for (String name : friendsList) {
-            if (roomService.checkAtRoom(name)) {
-                friendListDTO.addOnline(name);
+        for (FriendDTO friendDTO : friendsList) {
+            if (roomService.checkAtRoom(friendDTO.getUserName())) {
+                friendListDTO.addOnline(friendDTO.getUserName());
             } else {
-                friendListDTO.addOffline(name);
+                friendListDTO.addOffline(friendDTO.getUserName());
             }
         }
         return friendListDTO;
@@ -46,11 +47,14 @@ public class FriendServiceImpl implements FriendService {
     public Boolean addFriend(AddFriendRequest addFriendRequest) throws CustomerException {
         String userName = addFriendRequest.getUserA();
         String friendName = addFriendRequest.getUserB();
-        List<String> friendList = friendRepository.getAllUserAByUserB(userName);
-        List<String> friendList1 = friendRepository.getAllUserBByUserA(userName);
+        List<FriendDTO> friendList = friendRepository.getAllUserAByUserB(userName);
+        List<FriendDTO> friendList1 = friendRepository.getAllUserBByUserA(userName);
         friendList.addAll(friendList1);
-        if (friendList.contains(friendName)) {
-            throw new CustomerException(StatusEnum.HAVE_HAD_FRIEND);
+
+        for (FriendDTO friendDTO:friendList){
+            if (friendDTO.getUserName().equals(friendName)){
+                throw new CustomerException(StatusEnum.HAVE_HAD_FRIEND);
+            }
         }
         Optional<UserEntity> userEntity = userRepository.getUserEntityByUserName(friendName);
         if (userEntity.isEmpty()) {

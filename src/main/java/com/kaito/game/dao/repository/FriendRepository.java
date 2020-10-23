@@ -1,5 +1,6 @@
 package com.kaito.game.dao.repository;
 
+import com.kaito.game.DTO.FriendDTO;
 import com.kaito.game.dao.entity.FriendsEntity;
 import com.kaito.game.dao.entity.GameEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,11 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface FriendRepository extends JpaRepository<FriendsEntity,Integer> {
-    @Query(value = "select f.userB from FriendsEntity f " +
+    @Query(value = "select new com.kaito.game.DTO.FriendDTO(f.userB) from FriendsEntity f " +
             "where f.userA = ?1")
-    List<String> getAllUserBByUserA(String userName);
+    List<FriendDTO> getAllUserBByUserA(String userName);
 
-    @Query(value = "select f.userA from FriendsEntity f " +
+    @Query(value = "select new com.kaito.game.DTO.FriendDTO(f.userA) from FriendsEntity f " +
             "where f.userB = ?1")
-    List<String> getAllUserAByUserB(String userName);
+    List<FriendDTO> getAllUserAByUserB(String userName);
 }
