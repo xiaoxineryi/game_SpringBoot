@@ -31,7 +31,7 @@ public class GameBOImpl implements GameBO {
         gameExtra = game;
 
         this.setPlayers(roomBO.getPlayers());
-        BaseResponse o = gameExtra.initGame(new ArrayList<String>(players.keySet()));
+        List<BaseResponse> o = gameExtra.initGame(new ArrayList<String>(players.keySet()));
         sendObject(o);
 
     }
@@ -96,13 +96,14 @@ public class GameBOImpl implements GameBO {
     }
 
 
-    private void sendObject(BaseResponse baseResponse) {
-        List<String> names = baseResponse.getReceivers();
-        for (String name : names) {
-            if (players.containsKey(name)) {
-                players.get(name).getAsyncRemote().sendObject(baseResponse);
-            }
-        }
+    private void sendObject(List<BaseResponse> baseResponse) {
+//        List<String> names = baseResponse.getReceivers();
+
+//        for (String name : names) {
+//            if (players.containsKey(name)) {
+//                players.get(name).getAsyncRemote().sendObject(baseResponse);
+//            }
+//        }
     }
 
     @Override
