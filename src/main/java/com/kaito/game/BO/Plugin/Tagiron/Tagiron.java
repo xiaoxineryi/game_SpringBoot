@@ -1,6 +1,5 @@
 package com.kaito.game.BO.Plugin.Tagiron;
 
-import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
 
@@ -71,29 +70,29 @@ public class Tagiron implements GameExtra {
         return response;
     }
 
-    @Override
-    public BaseResponse execute(BaseRequest baseRequest) {
-        List<List<Integer>> result = null;
-        String sender = baseRequest.getSender();
-        int function = baseRequest.getType();
-        TagironResponse response = new TagironResponse("求和", new ArrayList<InfoDTO>());
-        response.setReceivers(usersList);
-        switch (function) {
-            case 1:
-                result = sum();
-                break;
-            case 2:
-                result = location(null, 0);
-                break;
-        }
-
-        for (int i = 0; i < players.size(); i++) {
-            if (!players.get(i).getName().equals(sender)) {
-                response.getInfo().add(new InfoDTO(usersList.get(i), null, result.get(i)));
-            }
-        }
-        return response;
-    }
+//    @Override
+//    public BaseResponse execute(BaseRequest baseRequest) {
+//        List<List<Integer>> result = null;
+//        String sender = baseRequest.getSender();
+//        int function = baseRequest.getType();
+//        TagironResponse response = new TagironResponse("求和", new ArrayList<InfoDTO>());
+//        response.setReceivers(usersList);
+//        switch (function) {
+//            case 1:
+//                result = sum();
+//                break;
+//            case 2:
+//                result = location(null, 0);
+//                break;
+//        }
+//
+//        for (int i = 0; i < players.size(); i++) {
+//            if (!players.get(i).getName().equals(sender)) {
+//                response.getInfo().add(new InfoDTO(usersList.get(i), null, result.get(i)));
+//            }
+//        }
+//        return response;
+//    }
 
     public List<List<Integer>> sum() {
         List<List<Integer>> results = new ArrayList<>();

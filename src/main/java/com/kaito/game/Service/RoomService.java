@@ -1,6 +1,5 @@
 package com.kaito.game.Service;
 
-import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.Controller.Request.RoomCreateRequest;
 import com.kaito.game.DTO.RoomDTO;
 import com.kaito.game.Exception.CustomerException;

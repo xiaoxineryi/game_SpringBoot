@@ -12,7 +12,7 @@ public class RoomFactoryImpl implements RoomFactory {
     @Override
     public RoomBO createRoomBO(RoomCreateRequest roomCreateRequest,int roomID) {
         RoomBO roomBO =  new RoomBO(roomID,roomCreateRequest.getMaxNumber(),0,
-                roomCreateRequest.getType());
+                roomCreateRequest.getGameType());
 
         return roomBO;
     }

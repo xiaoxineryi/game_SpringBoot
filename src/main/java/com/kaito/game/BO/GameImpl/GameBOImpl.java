@@ -1,17 +1,14 @@
 package com.kaito.game.BO.GameImpl;
 
 import com.kaito.game.BO.Base.BaseDTO;
-import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.GameBO;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.RoomBO;
-import com.kaito.game.dao.entity.GameEntity;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jboss.jandex.Type;
 
 import javax.websocket.Session;
 import java.lang.reflect.Constructor;
@@ -45,14 +42,15 @@ public class GameBOImpl implements GameBO {
             String type = String.valueOf(hashtable.get("type"));
             String DTOName = getDTOName(type);
             String path = "com.kaito.game.BO.Plugin.";
-            Class clz = Class.forName(path + className + "." +DTOName);
+            String DTOpath = path+"DTO.";
+            Class clz = Class.forName(DTOpath + className + "." +DTOName);
             Constructor constructor = clz.getConstructor(null);
             BaseDTO dto = (BaseDTO) constructor.newInstance();
             System.out.println(hashtable.get("data"));
             setDto(dto, (HashMap) hashtable.get("data"),DTOName);
 
             Class gameClz = Class.forName(path + className + "." + className);
-            Method method = gameClz.getMethod("play",Class.forName(path+className+"."+DTOName));
+            Method method = gameClz.getMethod("play",Class.forName(DTOpath+className+"."+DTOName));
             BaseResponse baseResponse= (BaseResponse) method.invoke(gameExtra,dto);
             sendObject(baseResponse);
         } catch (Exception e) {
@@ -82,11 +80,13 @@ public class GameBOImpl implements GameBO {
     }
 
     private void setDto(BaseDTO dto,HashMap<String,Object> data,String dtoName){
-        String path = "com.kaito.game.BO.Plugin.";
+        String DTOpath = "com.kaito.game.BO.Plugin.DTO.";
         try {
-            Class clz = Class.forName(path+className+"."+dtoName);
+            Class clz = Class.forName(DTOpath+className+"."+dtoName);
             for (String name:data.keySet()){
-                Method method = clz.getMethod("set"+name,data.get(name).getClass());
+                Character c = name.charAt(0);
+                String subname = name.substring(1);
+                Method method = clz.getMethod("set"+Character.toUpperCase(c)+subname,data.get(name).getClass());
                 method.invoke(dto,data.get(name));
             }
         } catch (Exception e) {

@@ -1,7 +1,5 @@
 package com.kaito.game.BO;
 
-import com.kaito.game.BO.Base.BaseRequest;
-
 import javax.websocket.Session;
 import java.util.Hashtable;
 

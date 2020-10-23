@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class RoomCreateRequest {
     String userName;
-    int type;
+    int gameType;
     int maxNumber;
 }

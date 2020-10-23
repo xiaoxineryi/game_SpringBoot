@@ -1,4 +1,4 @@
-package com.kaito.game.BO.Plugin.Desert;
+package com.kaito.game.BO.Plugin.Desert.DTO;
 
 import com.kaito.game.BO.Base.BaseDTO;
 import lombok.AllArgsConstructor;
