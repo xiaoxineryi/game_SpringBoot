@@ -56,7 +56,7 @@ public class Tagiron implements GameExtra {
     }
 
     @Override
-    public BaseResponse initGame(ArrayList<String> users) {
+    public List<BaseResponse> initGame(ArrayList<String> users) {
         usersList = users;
         for (int i = 0; i < 4; i++) {
             if (i < users.size()) {
@@ -73,7 +73,7 @@ public class Tagiron implements GameExtra {
         return response;
     }
 
-    public BaseResponse play(Sum sum) {
+    public List<BaseResponse> play(Sum sum) {
         TagironResponse response = new TagironResponse(Sum.functionName[sum.getFunction() - 1], new ArrayList<InfoDTO>());
         response.setReceivers(usersList);
         List<List<Integer>> results = sum(sum.getFunction());
@@ -107,7 +107,7 @@ public class Tagiron implements GameExtra {
         return results;
     }
 
-    public BaseResponse play(Location location) {
+    public List<BaseResponse> play(Location location) {
         int function = location.getFunction();
         TagironResponse response = new TagironResponse("数字" + function + "的位置", new ArrayList<InfoDTO>());
         response.setReceivers(usersList);

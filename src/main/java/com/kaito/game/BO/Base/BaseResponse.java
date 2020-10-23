@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 public class BaseResponse {
     public BaseResponse(){
-        receivers = new LinkedList<>();
+
     }
     String sender;
-    List<String> receivers;
+    String receiver;
 }
