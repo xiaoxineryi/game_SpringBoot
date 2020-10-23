@@ -11,5 +11,5 @@ import java.util.List;
 public class InfoDTO {
     String userName;
     Card[] cards;
-    Integer[] result;
+    List<Integer> result;
 }

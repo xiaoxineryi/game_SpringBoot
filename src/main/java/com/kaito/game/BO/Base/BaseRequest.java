@@ -11,4 +11,5 @@ public class BaseRequest {
 
     }
     String sender;
+    Integer function;
 }

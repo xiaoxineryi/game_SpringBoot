@@ -31,7 +31,7 @@ public class Tagiron implements GameExtra {
         Integer[][] order = new Integer[4][4];
         Integer[] answer = new Integer[4];
         Integer[] orders = new Integer[20];
-        List<Integer> integers = new ArrayList<Integer>();
+        List<Integer> integers = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             integers.add(i);
         }
@@ -64,12 +64,20 @@ public class Tagiron implements GameExtra {
 
     @Override
     public BaseResponse execute(BaseRequest baseRequest) {
-        TagironRequest tagironRequest = (TagironRequest) baseRequest;
-        List<Integer[]> result = sum();
-
-        String sender = tagironRequest.getSender();
+        List<List<Integer>> result = null;
+        String sender = baseRequest.getSender();
+        int function = baseRequest.getFunction();
         TagironResponse response = new TagironResponse("求和", new ArrayList<InfoDTO>());
         response.setReceivers(usersList);
+        switch (function) {
+            case 1:
+                result = sum();
+                break;
+            case 2:
+                result = location(0);
+                break;
+        }
+
         for (int i = 0; i < usersList.size(); i++) {
             if (!usersList.get(i).equals(sender)) {
                 response.getInfo().add(new InfoDTO(usersList.get(i), null, result.get(i)));
@@ -78,22 +86,37 @@ public class Tagiron implements GameExtra {
         return response;
     }
 
-    public List<Integer[]> sum() {
-        List<Integer[]> result = new ArrayList<Integer[]>();
-        Integer[][] sum = new Integer[4][1];
+    public List<List<Integer>> sum() {
+        List<List<Integer>> results = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            sum[i][0] = 0;
+            List<Integer> result = new ArrayList<>();
+            int sum = 0;
             for (int j = 0; j < 4; j++) {
-                sum[i][0] += cardOrder[i][j].getNum();
+                sum += cardOrder[i][j].getNum();
             }
-            result.add(sum[i]);
+            result.add(sum);
+            results.add(result);
         }
-        return result;
+        return results;
+    }
+
+    public List<List<Integer>> location(int cardNum) {
+        List<List<Integer>> results = new ArrayList<>();
+        for (int i = 0; i < 4; i++) {
+            List<Integer> result = new ArrayList<>();
+            for (int j = 0; j < 4; j++) {
+                if (cardOrder[i][j].getNum() == cardNum) {
+                    result.add(j);
+                }
+            }
+            results.add(result);
+        }
+        return results;
     }
 
     public static void main(String[] args) {
         Tagiron tagiron = new Tagiron();
         System.out.println(Arrays.toString(tagiron.answerOrder));
-        System.out.println(Arrays.toString(tagiron.sum().get(0)));
+        System.out.println(tagiron.sum());
     }
 }
