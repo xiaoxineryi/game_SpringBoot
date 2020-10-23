@@ -7,13 +7,13 @@ import java.util.List;
 
 @Data
 public class FriendListDTO {
-    List<String> onlineUsers = new LinkedList<>();
-    List<String> offlineUsers = new LinkedList<>();
+    List<FriendDTO> onlineUsers = new LinkedList<>();
+    List<FriendDTO> offlineUsers = new LinkedList<>();
     public void addOnline(String name) {
-        onlineUsers.add(name);
+        onlineUsers.add(new FriendDTO(name));
     }
 
     public void addOffline(String name) {
-        offlineUsers.add(name);
+        offlineUsers.add(new FriendDTO(name));
     }
 }
