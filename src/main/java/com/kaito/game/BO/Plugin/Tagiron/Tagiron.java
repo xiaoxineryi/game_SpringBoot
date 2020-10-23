@@ -1,7 +1,9 @@
 package com.kaito.game.BO.Plugin.Tagiron;
 
+import com.kaito.game.BO.Base.BaseDTO;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
+import com.kaito.game.BO.Plugin.Tagiron.DTO.Location;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Sum;
 
 import java.util.*;
@@ -101,15 +103,25 @@ public class Tagiron implements GameExtra {
                     results.add(player.sumLocation(1, 4));
                     break;
             }
-
         }
         return results;
     }
 
-    public List<List<Integer>> location(String color, int num) {
+    public BaseResponse play(Location location) {
+        int function = location.getFunction();
+        TagironResponse response = new TagironResponse("数字" + function + "的位置", new ArrayList<InfoDTO>());
+        response.setReceivers(usersList);
+        List<List<Integer>> results = location(function);
+        for (int i = 0; i < players.size(); i++) {
+            response.getInfo().add(new InfoDTO(players.get(i).getName(), null, results.get(i)));
+        }
+        return response;
+    }
+
+    public List<List<Integer>> location(int num) {
         List<List<Integer>> results = new ArrayList<>();
         for (Player player : players) {
-            results.add(player.location(color, num));
+            results.add(player.location(num));
         }
         return results;
     }

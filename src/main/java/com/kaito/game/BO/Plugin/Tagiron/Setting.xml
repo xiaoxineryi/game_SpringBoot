@@ -4,4 +4,8 @@
         <type>1</type>
         <class>Sum</class>
     </DTO>
+    <DTO>
+        <type>2</type>
+        <class>Location</class>
+    </DTO>
 </DTOS>

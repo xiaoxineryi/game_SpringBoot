@@ -40,19 +40,11 @@ public class Player {
         return result;
     }
 
-    public List<Integer> location(String color, int num) {
+    public List<Integer> location(int num) {
         List<Integer> result = new ArrayList<>();
-        if (color == null) {
-            for (int i = 0; i < 4; i++) {
-                if (cardList[i].getNum() == num) {
-                    result.add(i + 1);
-                }
-            }
-        } else {
-            for (int i = 0; i < 4; i++) {
-                if (cardList[i].getNum() == num && cardList[i].getColor().equals(color)) {
-                    result.add(i + 1);
-                }
+        for (int i = 0; i < 4; i++) {
+            if (cardList[i].getNum() == num) {
+                result.add(i + 1);
             }
         }
         return result;
