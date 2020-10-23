@@ -12,11 +12,29 @@ public class Player {
     private String name;
     private Card[] cardList;
 
-    public List<Integer> sum() {
+    public List<Integer> sumColor(String color) {
         List<Integer> result = new ArrayList<>();
         int sum = 0;
-        for (Card card : cardList) {
-            sum += card.getNum();
+        if (color == null) {
+            for (Card card : cardList) {
+                sum += card.getNum();
+            }
+        } else {
+            for (Card card : cardList) {
+                if (card.getColor().equals(color)) {
+                    sum += card.getNum();
+                }
+            }
+        }
+        result.add(sum);
+        return result;
+    }
+
+    public List<Integer> sumLocation(int i, int j) {
+        List<Integer> result = new ArrayList<>();
+        int sum = 0;
+        for (; i < j; i++) {
+            sum += cardList[i].getNum();
         }
         result.add(sum);
         return result;

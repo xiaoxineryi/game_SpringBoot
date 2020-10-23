@@ -2,6 +2,7 @@ package com.kaito.game.BO.Plugin.Tagiron;
 
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
+import com.kaito.game.BO.Plugin.Tagiron.DTO.Sum;
 
 import java.util.*;
 
@@ -70,34 +71,37 @@ public class Tagiron implements GameExtra {
         return response;
     }
 
-//    @Override
-//    public BaseResponse execute(BaseRequest baseRequest) {
-//        List<List<Integer>> result = null;
-//        String sender = baseRequest.getSender();
-//        int function = baseRequest.getType();
-//        TagironResponse response = new TagironResponse("求和", new ArrayList<InfoDTO>());
-//        response.setReceivers(usersList);
-//        switch (function) {
-//            case 1:
-//                result = sum();
-//                break;
-//            case 2:
-//                result = location(null, 0);
-//                break;
-//        }
-//
-//        for (int i = 0; i < players.size(); i++) {
-//            if (!players.get(i).getName().equals(sender)) {
-//                response.getInfo().add(new InfoDTO(usersList.get(i), null, result.get(i)));
-//            }
-//        }
-//        return response;
-//    }
+    public BaseResponse play(Sum sum) {
+        TagironResponse response = new TagironResponse(Sum.functionName[sum.getFunction() - 1], new ArrayList<InfoDTO>());
+        response.setReceivers(usersList);
+        List<List<Integer>> results = sum(sum.getFunction());
+        for (int i = 0; i < players.size(); i++) {
+            response.getInfo().add(new InfoDTO(players.get(i).getName(), null, results.get(i)));
+        }
+        return response;
+    }
 
-    public List<List<Integer>> sum() {
+    public List<List<Integer>> sum(int function) {
         List<List<Integer>> results = new ArrayList<>();
         for (Player player : players) {
-            results.add(player.sum());
+            switch (function) {
+                case 1:
+                    results.add(player.sumColor(null));
+                    break;
+                case 2:
+                    results.add(player.sumColor(Card.Blue));
+                    break;
+                case 3:
+                    results.add(player.sumColor(Card.Red));
+                    break;
+                case 4:
+                    results.add(player.sumLocation(0, 3));
+                    break;
+                case 5:
+                    results.add(player.sumLocation(1, 4));
+                    break;
+            }
+
         }
         return results;
     }
@@ -113,6 +117,6 @@ public class Tagiron implements GameExtra {
     public static void main(String[] args) {
         Tagiron tagiron = new Tagiron();
         System.out.println(Arrays.toString(tagiron.answerOrder));
-        System.out.println(tagiron.sum());
+//        System.out.println(tagiron.sum());
     }
 }
