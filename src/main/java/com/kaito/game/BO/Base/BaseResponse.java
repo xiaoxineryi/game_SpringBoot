@@ -14,6 +14,5 @@ public class BaseResponse {
     public BaseResponse(){
 
     }
-    String sender;
     String receiver;
 }

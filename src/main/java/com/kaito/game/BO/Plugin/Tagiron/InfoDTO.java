@@ -9,6 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class InfoDTO {
+    public InfoDTO() {
+
+    }
+
     Card[] cards;
-    List<Integer> result;
+    List<List<Integer>> result;
 }

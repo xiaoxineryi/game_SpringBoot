@@ -1,6 +1,5 @@
 package com.kaito.game.BO.Plugin.Tagiron;
 
-import com.kaito.game.BO.Base.BaseDTO;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Location;
@@ -65,22 +64,24 @@ public class Tagiron implements GameExtra {
                 players.add(new Player("computer " + i, cardList[i]));
             }
         }
-        TagironResponse response = new TagironResponse("游戏开始", new ArrayList<InfoDTO>());
-        response.setReceivers(usersList);
-        for (int i = 0; i < players.size(); i++) {
-            response.getInfo().add(new InfoDTO(players.get(i).getName(), cardList[i], null));
+        List<BaseResponse> responses = new ArrayList<>();
+        for (int i = 0; i < usersList.size(); i++) {
+            TagironResponse response = new TagironResponse("游戏开始", new InfoDTO(cardList[i], null));
+            response.setReceiver(usersList.get(i));
+            responses.add(response);
         }
-        return response;
+        return responses;
     }
 
     public List<BaseResponse> play(Sum sum) {
-        TagironResponse response = new TagironResponse(Sum.functionName[sum.getFunction() - 1], new ArrayList<InfoDTO>());
-        response.setReceivers(usersList);
+        List<BaseResponse> responses = new ArrayList<>();
         List<List<Integer>> results = sum(sum.getFunction());
-        for (int i = 0; i < players.size(); i++) {
-            response.getInfo().add(new InfoDTO(players.get(i).getName(), null, results.get(i)));
+        for (String s : usersList) {
+            TagironResponse response = new TagironResponse(Sum.functionName[sum.getFunction() - 1], new InfoDTO(null, results));
+            response.setReceiver(s);
+            responses.add(response);
         }
-        return response;
+        return responses;
     }
 
     public List<List<Integer>> sum(int function) {
@@ -109,13 +110,14 @@ public class Tagiron implements GameExtra {
 
     public List<BaseResponse> play(Location location) {
         int function = location.getFunction();
-        TagironResponse response = new TagironResponse("数字" + function + "的位置", new ArrayList<InfoDTO>());
-        response.setReceivers(usersList);
+        List<BaseResponse> responses = new ArrayList<>();
         List<List<Integer>> results = location(function);
-        for (int i = 0; i < players.size(); i++) {
-            response.getInfo().add(new InfoDTO(players.get(i).getName(), null, results.get(i)));
+        for (String s : usersList) {
+            TagironResponse response = new TagironResponse("数字" + function + "的位置", new InfoDTO(null, results));
+            response.setReceiver(s);
+            responses.add(response);
         }
-        return response;
+        return responses;
     }
 
     public List<List<Integer>> location(int num) {

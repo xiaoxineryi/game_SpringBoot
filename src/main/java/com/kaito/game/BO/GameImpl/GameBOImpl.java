@@ -51,7 +51,7 @@ public class GameBOImpl implements GameBO {
 
             Class gameClz = Class.forName(path + className + "." + className);
             Method method = gameClz.getMethod("play", Class.forName(path + className + ".DTO." + DTOName));
-            BaseResponse baseResponse = (BaseResponse) method.invoke(gameExtra, dto);
+            List<BaseResponse> baseResponse = (List<BaseResponse>) method.invoke(gameExtra, dto);
             sendObject(baseResponse);
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,14 +96,10 @@ public class GameBOImpl implements GameBO {
     }
 
 
-    private void sendObject(List<BaseResponse> baseResponse) {
-//        List<String> names = baseResponse.getReceivers();
-
-//        for (String name : names) {
-//            if (players.containsKey(name)) {
-//                players.get(name).getAsyncRemote().sendObject(baseResponse);
-//            }
-//        }
+    private void sendObject(List<BaseResponse> baseResponses) {
+        for (BaseResponse baseResponse : baseResponses) {
+            players.get(baseResponse.getReceiver()).getAsyncRemote().sendObject(baseResponse);
+        }
     }
 
     @Override
