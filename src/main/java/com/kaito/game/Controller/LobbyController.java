@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @RequestMapping("/lobby")
 public class LobbyController {
@@ -17,7 +19,7 @@ public class LobbyController {
     FriendService friendService;
 
     @GetMapping(value = "/friendList")
-    public FriendListDTO getFriendList(@RequestParam(value = "userName") String userName){
+    public FriendListDTO getFriendList(@PathParam("userName") String userName) {
         FriendListDTO friendListDTO = friendService.getFriendList(userName);
         System.out.println(friendListDTO);
         return friendListDTO;

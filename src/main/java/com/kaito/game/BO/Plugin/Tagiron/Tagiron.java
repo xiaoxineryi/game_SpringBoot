@@ -10,7 +10,8 @@ public class Tagiron implements GameExtra {
 
     private static Card[] cards;
 
-    private Card[][] cardOrder;
+    private Card[][] cardList;
+    private List<Player> players;
     private Card[] answerOrder;
     private List<String> usersList;
 
@@ -26,8 +27,9 @@ public class Tagiron implements GameExtra {
     }
 
     public Tagiron() {
+        players = new ArrayList<>();
         answerOrder = new Card[4];
-        cardOrder = new Card[4][4];
+        cardList = new Card[4][4];
         Integer[][] order = new Integer[4][4];
         Integer[] answer = new Integer[4];
         Integer[] orders = new Integer[20];
@@ -41,7 +43,7 @@ public class Tagiron implements GameExtra {
             System.arraycopy(orders, i * 4, order[i], 0, 4);
             Arrays.sort(order[i]);
             for (int j = 0; j < 4; j++) {
-                cardOrder[i][j] = cards[order[i][j]];
+                cardList[i][j] = cards[order[i][j]];
             }
         }
         System.arraycopy(orders, 16, answer, 0, 4);
@@ -54,10 +56,17 @@ public class Tagiron implements GameExtra {
     @Override
     public BaseResponse initGame(ArrayList<String> users) {
         usersList = users;
+        for (int i = 0; i < 4; i++) {
+            if (i < users.size()) {
+                players.add(new Player(users.get(i), cardList[i]));
+            } else {
+                players.add(new Player("computer " + i, cardList[i]));
+            }
+        }
         TagironResponse response = new TagironResponse("游戏开始", new ArrayList<InfoDTO>());
         response.setReceivers(usersList);
-        for (int i = 0; i < usersList.size(); i++) {
-            response.getInfo().add(new InfoDTO(usersList.get(i), cardOrder[i], null));
+        for (int i = 0; i < players.size(); i++) {
+            response.getInfo().add(new InfoDTO(players.get(i).getName(), cardList[i], null));
         }
         return response;
     }
@@ -74,12 +83,12 @@ public class Tagiron implements GameExtra {
                 result = sum();
                 break;
             case 2:
-                result = location(0);
+                result = location(null, 0);
                 break;
         }
 
-        for (int i = 0; i < usersList.size(); i++) {
-            if (!usersList.get(i).equals(sender)) {
+        for (int i = 0; i < players.size(); i++) {
+            if (!players.get(i).getName().equals(sender)) {
                 response.getInfo().add(new InfoDTO(usersList.get(i), null, result.get(i)));
             }
         }
@@ -88,28 +97,16 @@ public class Tagiron implements GameExtra {
 
     public List<List<Integer>> sum() {
         List<List<Integer>> results = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            List<Integer> result = new ArrayList<>();
-            int sum = 0;
-            for (int j = 0; j < 4; j++) {
-                sum += cardOrder[i][j].getNum();
-            }
-            result.add(sum);
-            results.add(result);
+        for (Player player : players) {
+            results.add(player.sum());
         }
         return results;
     }
 
-    public List<List<Integer>> location(int cardNum) {
+    public List<List<Integer>> location(String color, int num) {
         List<List<Integer>> results = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            List<Integer> result = new ArrayList<>();
-            for (int j = 0; j < 4; j++) {
-                if (cardOrder[i][j].getNum() == cardNum) {
-                    result.add(j);
-                }
-            }
-            results.add(result);
+        for (Player player : players) {
+            results.add(player.location(color, num));
         }
         return results;
     }
