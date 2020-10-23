@@ -1,25 +1,33 @@
 package com.kaito.game.BO.GameImpl;
 
+import com.kaito.game.BO.Base.BaseDTO;
 import com.kaito.game.BO.Base.BaseRequest;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.GameBO;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.RoomBO;
+import com.kaito.game.dao.entity.GameEntity;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.jboss.jandex.Type;
 
 import javax.websocket.Session;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.lang.reflect.Method;
+import java.util.*;
 
 public class GameBOImpl implements GameBO {
     Hashtable<String, Session> players;
     GameExtra gameExtra;
-
+    String className;
     @Override
     public void initGame(RoomBO roomBO, String className) throws Exception {
         String path = "com.kaito.game.BO.Plugin.";
         Class clz = Class.forName(path + className + "." + className);
+        this.className = className;
+
         Constructor constructor = clz.getConstructor(null);
         GameExtra game = (GameExtra) constructor.newInstance();
         gameExtra = game;
@@ -31,10 +39,61 @@ public class GameBOImpl implements GameBO {
     }
 
     @Override
-    public void execute(BaseRequest o) {
-        BaseResponse baseResponse = gameExtra.execute(o);
-        sendObject(baseResponse);
+    public void execute(Object o) {
+        try {
+            HashMap<String,Object> hashtable = (HashMap)o;
+            String type = String.valueOf(hashtable.get("type"));
+            String DTOName = getDTOName(type);
+            String path = "com.kaito.game.BO.Plugin.";
+            Class clz = Class.forName(path + className + "." +DTOName);
+            Constructor constructor = clz.getConstructor(null);
+            BaseDTO dto = (BaseDTO) constructor.newInstance();
+            System.out.println(hashtable.get("data"));
+            setDto(dto, (HashMap) hashtable.get("data"),DTOName);
+
+            Class gameClz = Class.forName(path + className + "." + className);
+            Method method = gameClz.getMethod("play",Class.forName(path+className+"."+DTOName));
+            BaseResponse baseResponse= (BaseResponse) method.invoke(gameExtra,dto);
+            sendObject(baseResponse);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        BaseResponse baseResponse = gameExtra.execute(o);
     }
+    private String getDTOName(String type) throws Exception {
+        SAXReader reader = new SAXReader();
+        try {
+            Document doc = reader.read("./src/main/java/com/kaito/game/BO/Plugin/"+className+"/Setting.xml");
+            Element root = doc.getRootElement();
+            Iterator<Element> it = root.elementIterator();
+            while (it.hasNext()){
+                Element e = it.next();
+                Element typeID = e.element("type");
+                Element className = e.element("class");
+                if (type.equals(typeID.getStringValue())){
+                    return className.getStringValue();
+                }
+            }
+        } catch (DocumentException e) {
+            System.out.println("找不到对应文件");
+            e.printStackTrace();
+        }
+        throw new Exception();
+    }
+
+    private void setDto(BaseDTO dto,HashMap<String,Object> data,String dtoName){
+        String path = "com.kaito.game.BO.Plugin.";
+        try {
+            Class clz = Class.forName(path+className+"."+dtoName);
+            for (String name:data.keySet()){
+                Method method = clz.getMethod("set"+name,data.get(name).getClass());
+                method.invoke(dto,data.get(name));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void sendObject(BaseResponse baseResponse) {
         List<String> names = baseResponse.getReceivers();

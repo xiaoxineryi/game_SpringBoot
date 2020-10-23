@@ -75,7 +75,7 @@ public class Tagiron implements GameExtra {
     public BaseResponse execute(BaseRequest baseRequest) {
         List<List<Integer>> result = null;
         String sender = baseRequest.getSender();
-        int function = baseRequest.getFunction();
+        int function = baseRequest.getType();
         TagironResponse response = new TagironResponse("求和", new ArrayList<InfoDTO>());
         response.setReceivers(usersList);
         switch (function) {

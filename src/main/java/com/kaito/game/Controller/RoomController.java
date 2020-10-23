@@ -31,9 +31,9 @@ public class RoomController {
     }
 
     @PostMapping("/play")
-    public void play(@RequestParam int roomID, @RequestBody BaseRequest baseRequest) throws CustomerException {
+    public void play(@RequestParam int roomID, @RequestBody Object object) throws CustomerException {
         System.out.println(roomID);
-        roomService.play(roomID,baseRequest);
+        roomService.play(roomID,object);
     }
 
     @GetMapping("/getRooms")

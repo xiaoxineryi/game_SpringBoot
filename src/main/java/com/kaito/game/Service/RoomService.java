@@ -13,7 +13,7 @@ public interface RoomService {
 
     void startGame(int roomID) throws Exception;
 
-    void play(int roomID, BaseRequest baseRequest) throws CustomerException;
+    void play(int roomID, Object baseRequest) throws CustomerException;
 
     void removeRoomSession(int roomID,String userName);
 

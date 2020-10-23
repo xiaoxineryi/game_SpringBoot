@@ -12,4 +12,5 @@ import javax.persistence.Entity;
 @EntityScan(basePackages = "com.kaito.game.dao.entity")
 @EnableJpaRepositories(basePackages = "com.kaito.game.dao.repository")
 public class JpaConfig {
+    
 }

@@ -54,7 +54,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void play(int roomID, BaseRequest baseRequest) throws CustomerException {
+    public void play(int roomID, Object baseRequest) throws CustomerException {
         RoomBO roomBO = rooms.get(roomID);
         if (roomBO == null) {
             throw new CustomerException(StatusEnum.CANT_FIND_ROOM);
