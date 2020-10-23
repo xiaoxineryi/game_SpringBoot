@@ -47,6 +47,9 @@ public class Player {
                 result.add(i + 1);
             }
         }
+        if (result.isEmpty()) {
+            result.add(0);
+        }
         return result;
     }
 }
