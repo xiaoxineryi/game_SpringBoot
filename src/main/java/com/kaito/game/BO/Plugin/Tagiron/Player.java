@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Data
@@ -40,7 +41,13 @@ public class Player {
         return result;
     }
 
-    public List<Integer> location(int num) {
+    public List<Integer> max_min() {
+        List<Integer> result = new ArrayList<>();
+        result.add(cardList[3].getNum() - cardList[0].getNum());
+        return result;
+    }
+
+    public List<Integer> locationNum(int num) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             if (cardList[i].getNum() == num) {
@@ -50,6 +57,65 @@ public class Player {
         if (result.isEmpty()) {
             result.add(0);
         }
+        return result;
+    }
+
+    public List<Integer> location(boolean flag) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            if (flag) {
+                if (cardList[i].getColor().equals(cardList[i + 1].getColor())) {
+                    result.add(i + 1);
+                    result.add(i + 2);
+                }
+            } else {
+                if (cardList[i].getNum() + 1 == cardList[i + 1].getNum()) {
+                    result.add(i + 1);
+                    result.add(i + 2);
+                }
+            }
+        }
+        result = new ArrayList<Integer>(new HashSet<Integer>(result));
+        return result;
+    }
+
+    public List<Integer> numColor(String color, Boolean parity) {
+        List<Integer> result = new ArrayList<>();
+        int num = 0;
+        if (color == null) {
+            if (parity) {
+                for (Card card : cardList) {
+                    if (card.getNum() % 2 == 0)
+                        num++;
+                }
+            } else {
+                for (Card card : cardList) {
+                    if (card.getNum() % 2 != 0)
+                        num++;
+                }
+            }
+        } else {
+            for (Card card : cardList) {
+                if (card.getColor().equals(color))
+                    num++;
+            }
+        }
+        result.add(num);
+        return result;
+    }
+
+    public List<Integer> numSame() {
+        List<Integer> result = new ArrayList<>();
+        int num = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = i + 1; j < 4; j++) {
+                if (cardList[i].getNum() == cardList[j].getNum()) {
+                    num++;
+                    break;
+                }
+            }
+        }
+        result.add(num);
         return result;
     }
 }

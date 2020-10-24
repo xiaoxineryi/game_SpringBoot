@@ -3,6 +3,7 @@ package com.kaito.game.BO.Plugin.Tagiron;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Location;
+import com.kaito.game.BO.Plugin.Tagiron.DTO.Num;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Sum;
 
 import java.util.*;
@@ -103,6 +104,9 @@ public class Tagiron implements GameExtra {
                 case 5:
                     results.add(player.sumLocation(1, 4));
                     break;
+                case 6:
+                    results.add(player.max_min());
+                    break;
             }
         }
         return results;
@@ -110,27 +114,78 @@ public class Tagiron implements GameExtra {
 
     public List<BaseResponse> play(Location location) {
         int function = location.getFunction();
+        String functionName = null;
+        if (function < 10) {
+            functionName = "数字" + function + "的位置";
+        } else if (function == 10) {
+            functionName = "相同颜色且相邻的数字板块位置";
+        } else {
+            functionName = "连续数字板块的位置";
+        }
         List<BaseResponse> responses = new ArrayList<>();
         List<List<Integer>> results = location(function);
         for (String s : usersList) {
-            TagironResponse response = new TagironResponse("数字" + function + "的位置", new InfoDTO(null, results));
+            TagironResponse response = new TagironResponse(functionName, new InfoDTO(null, results));
             response.setReceiver(s);
             responses.add(response);
         }
         return responses;
     }
 
-    public List<List<Integer>> location(int num) {
+    private List<List<Integer>> location(int num) {
         List<List<Integer>> results = new ArrayList<>();
-        for (Player player : players) {
-            results.add(player.location(num));
+        if (num < 10) {
+            for (Player player : players) {
+                results.add(player.locationNum(num));
+            }
+        } else {
+            for (Player player : players) {
+                switch (num) {
+                    case 10:
+                        results.add(player.location(true));
+                        break;
+                    case 11:
+                        results.add(player.location(false));
+                        break;
+                }
+            }
         }
         return results;
     }
 
-    public static void main(String[] args) {
-        Tagiron tagiron = new Tagiron();
-        System.out.println(Arrays.toString(tagiron.answerOrder));
-//        System.out.println(tagiron.sum());
+    public List<BaseResponse> play(Num num) {
+        int function = num.getFunction();
+        List<BaseResponse> responses = new ArrayList<>();
+        List<List<Integer>> results = num(function);
+        for (String s : usersList) {
+            TagironResponse response = new TagironResponse(Num.functionName[function - 1], new InfoDTO(null, results));
+            response.setReceiver(s);
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    private List<List<Integer>> num(int num) {
+        List<List<Integer>> results = new ArrayList<>();
+        for (Player player : players) {
+            switch (num) {
+                case 1:
+                    results.add(player.numColor(Card.Red, null));
+                    break;
+                case 2:
+                    results.add(player.numColor(Card.Blue, null));
+                    break;
+                case 3:
+                    results.add(player.numColor(null, true));
+                    break;
+                case 4:
+                    results.add(player.numColor(null, false));
+                    break;
+                case 5:
+                    results.add(player.numSame());
+                    break;
+            }
+        }
+        return results;
     }
 }

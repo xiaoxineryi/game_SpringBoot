@@ -8,4 +8,8 @@
         <type>2</type>
         <class>Location</class>
     </DTO>
+    <DTO>
+        <type>3</type>
+        <class>Num</class>
+    </DTO>
 </DTOS>
