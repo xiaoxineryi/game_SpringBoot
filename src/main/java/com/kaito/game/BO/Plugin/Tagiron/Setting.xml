@@ -2,14 +2,10 @@
 <DTOS>
     <DTO>
         <type>1</type>
-        <class>Sum</class>
+        <class>Function</class>
     </DTO>
     <DTO>
         <type>2</type>
-        <class>Location</class>
-    </DTO>
-    <DTO>
-        <type>3</type>
-        <class>Num</class>
+        <class>Guess</class>
     </DTO>
 </DTOS>

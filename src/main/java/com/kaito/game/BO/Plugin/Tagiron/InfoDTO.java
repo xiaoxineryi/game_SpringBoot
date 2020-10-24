@@ -13,6 +13,7 @@ public class InfoDTO {
 
     }
 
-    Card[] cards;
+    Integer[] cards;
+    List<Integer> question;
     List<List<Integer>> result;
 }

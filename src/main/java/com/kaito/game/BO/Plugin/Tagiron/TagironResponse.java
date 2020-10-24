@@ -10,6 +10,5 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class TagironResponse extends BaseResponse {
-    private String functionName;
     private InfoDTO info;
 }

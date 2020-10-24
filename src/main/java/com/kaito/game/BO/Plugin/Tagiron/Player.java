@@ -11,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Player {
     private String name;
+    private Integer[] cardIndex;
     private Card[] cardList;
 
     public List<Integer> sumColor(String color) {
