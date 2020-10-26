@@ -79,7 +79,7 @@ public class Tagiron implements GameExtra {
             question.add(questions.get(index));
         }
         for (int i = 0; i < usersList.size(); i++) {
-            TagironResponse response = new TagironResponse(null, new InfoDTO(players.get(i).getCardIndex(), question, null));
+            TagironResponse response = new TagironResponse(null, players.get(i).getCardIndex(), question, null);
             response.setReceiver(usersList.get(i));
             responses.add(response);
         }
@@ -90,9 +90,9 @@ public class Tagiron implements GameExtra {
         List<BaseResponse> responses = new ArrayList<>();
         System.out.println(guess.getAnswer());
         Boolean flag = Arrays.equals(guess.getAnswer().toArray(), answerOrder);
-        for (int i = 0; i < usersList.size(); i++) {
-            TagironResponse response = new TagironResponse(flag, null);
-            response.setReceiver(usersList.get(i));
+        for (String s : usersList) {
+            TagironResponse response = new TagironResponse(flag, null, null, null);
+            response.setReceiver(s);
             responses.add(response);
         }
         return responses;
@@ -111,9 +111,9 @@ public class Tagiron implements GameExtra {
         }
 
         for (String s : usersList) {
-            TagironResponse response = new TagironResponse(null, new InfoDTO(null, new ArrayList<>(), results));
+            TagironResponse response = new TagironResponse(null, null, new ArrayList<>(), results);
             response.setReceiver(s);
-            response.getInfo().getQuestion().add(questions.get(index++));
+            response.getQuestion().add(questions.get(index++));
             responses.add(response);
         }
         return responses;

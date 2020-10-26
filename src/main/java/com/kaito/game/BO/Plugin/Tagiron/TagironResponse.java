@@ -11,5 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TagironResponse extends BaseResponse {
     private Boolean flag;
-    private InfoDTO info;
+    List<Integer> card;
+    List<Integer> question;
+    List<List<Integer>> result;
 }
