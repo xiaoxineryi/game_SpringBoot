@@ -10,5 +10,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class TagironResponse extends BaseResponse {
+    private Boolean flag;
     private InfoDTO info;
 }

@@ -3,6 +3,7 @@ package com.kaito.game.BO.Plugin.Tagiron;
 import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Function;
+import com.kaito.game.BO.Plugin.Tagiron.DTO.Guess;
 
 import java.util.*;
 
@@ -55,7 +56,7 @@ public class Tagiron implements GameExtra {
             for (int j = 0; j < 4; j++) {
                 cardList[i][j] = cards[order[i][j]];
             }
-            players.add(new Player(null, order[i], cardList[i]));
+            players.add(new Player(null, Arrays.asList(order[i]), cardList[i]));
         }
         System.arraycopy(orders, 16, answerOrder, 0, 4);
         Arrays.sort(answerOrder);
@@ -63,6 +64,7 @@ public class Tagiron implements GameExtra {
 
     @Override
     public List<BaseResponse> initGame(ArrayList<String> users) {
+//        System.out.println(answerOrder);
         usersList = users;
         for (int i = 0; i < 4; i++) {
             if (i < users.size()) {
@@ -77,7 +79,19 @@ public class Tagiron implements GameExtra {
             question.add(questions.get(index));
         }
         for (int i = 0; i < usersList.size(); i++) {
-            TagironResponse response = new TagironResponse(new InfoDTO(players.get(i).getCardIndex(), question, null));
+            TagironResponse response = new TagironResponse(null, new InfoDTO(players.get(i).getCardIndex(), question, null));
+            response.setReceiver(usersList.get(i));
+            responses.add(response);
+        }
+        return responses;
+    }
+
+    public List<BaseResponse> play(Guess guess) {
+        List<BaseResponse> responses = new ArrayList<>();
+        System.out.println(guess.getAnswer());
+        Boolean flag = Arrays.equals(guess.getAnswer().toArray(), answerOrder);
+        for (int i = 0; i < usersList.size(); i++) {
+            TagironResponse response = new TagironResponse(flag, null);
             response.setReceiver(usersList.get(i));
             responses.add(response);
         }
@@ -97,7 +111,7 @@ public class Tagiron implements GameExtra {
         }
 
         for (String s : usersList) {
-            TagironResponse response = new TagironResponse(new InfoDTO(null, new ArrayList<>(), results));
+            TagironResponse response = new TagironResponse(null, new InfoDTO(null, new ArrayList<>(), results));
             response.setReceiver(s);
             response.getInfo().getQuestion().add(questions.get(index++));
             responses.add(response);
