@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class Function extends BaseDTO {
+    private String sender;
     private Integer function;
 
     @Override

@@ -4,6 +4,9 @@ import com.kaito.game.BO.Base.BaseResponse;
 import com.kaito.game.BO.Plugin.GameExtra;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Function;
 import com.kaito.game.BO.Plugin.Tagiron.DTO.Guess;
+import com.kaito.game.BO.Plugin.Tagiron.Response.FunctionResponse;
+import com.kaito.game.BO.Plugin.Tagiron.Response.GuessResponse;
+import com.kaito.game.BO.Plugin.Tagiron.Response.StartResponse;
 
 import java.util.*;
 
@@ -11,7 +14,8 @@ public class Tagiron implements GameExtra {
 
     private static Card[] cards;
 
-    private Integer index;
+    private Integer questionIndex;
+    private Integer playerIndex;
     private List<Integer> questions;
 
     private List<Player> players;
@@ -30,7 +34,8 @@ public class Tagiron implements GameExtra {
     }
 
     public Tagiron() {
-        index = 0;
+        questionIndex = 0;
+        playerIndex = 0;
         questions = new ArrayList<>();
         for (int i = 0; i < 23; i++) {
             questions.add(i);
@@ -64,7 +69,6 @@ public class Tagiron implements GameExtra {
 
     @Override
     public List<BaseResponse> initGame(ArrayList<String> users) {
-//        System.out.println(answerOrder);
         usersList = users;
         for (int i = 0; i < 4; i++) {
             if (i < users.size()) {
@@ -75,11 +79,11 @@ public class Tagiron implements GameExtra {
         }
         List<BaseResponse> responses = new ArrayList<>();
         ArrayList<Integer> question = new ArrayList<>();
-        for (; index < 6; index++) {
-            question.add(questions.get(index));
+        for (; questionIndex < 6; questionIndex++) {
+            question.add(questions.get(questionIndex));
         }
         for (int i = 0; i < usersList.size(); i++) {
-            TagironResponse response = new TagironResponse(null, players.get(i).getCardIndex(), question, null);
+            StartResponse response = new StartResponse(players.get(i).getCardIndex(), question, usersList.get(playerIndex));
             response.setReceiver(usersList.get(i));
             responses.add(response);
         }
@@ -88,32 +92,51 @@ public class Tagiron implements GameExtra {
 
     public List<BaseResponse> play(Guess guess) {
         List<BaseResponse> responses = new ArrayList<>();
-        System.out.println(guess.getAnswer());
-        Boolean flag = Arrays.equals(guess.getAnswer().toArray(), answerOrder);
-        for (String s : usersList) {
-            TagironResponse response = new TagironResponse(flag, null, null, null);
-            response.setReceiver(s);
+        String sender = guess.getSender();
+        boolean roundFlag = sender.equals(usersList.get(playerIndex));
+        if (roundFlag) {
+            Boolean guessFlag = Arrays.equals(guess.getAnswer().toArray(), answerOrder);
+            playerIndex = (playerIndex + 1) % usersList.size();
+            for (String s : usersList) {
+                GuessResponse response = new GuessResponse(true, guessFlag, guess.getAnswer(), usersList.get(playerIndex));
+                response.setReceiver(s);
+                response.setSender(sender);
+                responses.add(response);
+            }
+        } else {
+            GuessResponse response = new GuessResponse(false, false, guess.getAnswer(), usersList.get(playerIndex));
+            response.setReceiver(sender);
             responses.add(response);
         }
         return responses;
     }
 
-    public List<BaseResponse> play(Function function) {
-        int functionNum = function.getFunction();
-        List<BaseResponse> responses = new ArrayList<>();
-        List<List<Integer>> results;
-        if (functionNum < 12) {
-            results = location(functionNum);
-        } else if (functionNum < 18) {
-            results = sum(functionNum - 11);
-        } else {
-            results = num(functionNum - 17);
-        }
 
-        for (String s : usersList) {
-            TagironResponse response = new TagironResponse(null, null, new ArrayList<>(), results);
-            response.setReceiver(s);
-            response.getQuestion().add(questions.get(index++));
+    public List<BaseResponse> play(Function function) {
+        List<BaseResponse> responses = new ArrayList<>();
+        int functionNum = function.getFunction();
+        String sender = function.getSender();
+        boolean roundFlag = sender.equals(usersList.get(playerIndex));
+        if (roundFlag) {
+            List<List<Integer>> results;
+            if (functionNum < 12) {
+                results = location(functionNum);
+            } else if (functionNum < 18) {
+                results = sum(functionNum - 11);
+            } else {
+                results = num(functionNum - 17);
+            }
+            playerIndex = (playerIndex + 1) % usersList.size();
+            for (String s : usersList) {
+                FunctionResponse response = new FunctionResponse(true, questions.get(questionIndex), results, usersList.get(playerIndex));
+                response.setReceiver(s);
+                response.setSender(sender);
+                responses.add(response);
+            }
+            questionIndex++;
+        } else {
+            FunctionResponse response = new FunctionResponse(false, null, null, usersList.get(playerIndex));
+            response.setReceiver(sender);
             responses.add(response);
         }
         return responses;

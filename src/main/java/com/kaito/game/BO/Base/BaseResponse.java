@@ -11,8 +11,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class BaseResponse {
-    public BaseResponse(){
+    public BaseResponse() {
 
     }
+
     String receiver;
+    String sender;
 }

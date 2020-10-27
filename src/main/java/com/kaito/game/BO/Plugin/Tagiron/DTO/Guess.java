@@ -11,8 +11,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class Guess extends BaseDTO {
+    private String sender;
     private ArrayList<Integer> answer;
-
 
     @Override
     public BaseDTO getThis() {
