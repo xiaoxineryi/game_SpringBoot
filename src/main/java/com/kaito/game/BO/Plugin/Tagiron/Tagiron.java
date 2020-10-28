@@ -17,6 +17,7 @@ public class Tagiron implements GameExtra {
     private Integer questionIndex;
     private Integer playerIndex;
     private List<Integer> questions;
+    private List<Integer> question;
 
     private List<Player> players;
     private List<String> usersList;
@@ -37,10 +38,15 @@ public class Tagiron implements GameExtra {
         questionIndex = 0;
         playerIndex = 0;
         questions = new ArrayList<>();
+        question = new ArrayList<>();
         for (int i = 0; i < 23; i++) {
             questions.add(i);
         }
         Collections.shuffle(questions);
+
+        for (; questionIndex < 6; questionIndex++) {
+            question.add(questions.get(questionIndex));
+        }
 
         players = new ArrayList<>();
         answerOrder = new Integer[4];
@@ -78,10 +84,6 @@ public class Tagiron implements GameExtra {
             }
         }
         List<BaseResponse> responses = new ArrayList<>();
-        ArrayList<Integer> question = new ArrayList<>();
-        for (; questionIndex < 6; questionIndex++) {
-            question.add(questions.get(questionIndex));
-        }
         for (int i = 0; i < usersList.size(); i++) {
             StartResponse response = new StartResponse(players.get(i).getCardIndex(), question, usersList.get(playerIndex));
             response.setReceiver(usersList.get(i));
@@ -127,15 +129,21 @@ public class Tagiron implements GameExtra {
                 results = num(functionNum - 17);
             }
             playerIndex = (playerIndex + 1) % usersList.size();
+            List<String> name = new ArrayList<>();
+            for (Player player : players) {
+                name.add(player.getName());
+            }
+            question.remove((Integer) functionNum);
+            question.add(questions.get(questionIndex));
             for (String s : usersList) {
-                FunctionResponse response = new FunctionResponse(true, questions.get(questionIndex), results, usersList.get(playerIndex));
+                FunctionResponse response = new FunctionResponse(true, name, results, question, usersList.get(playerIndex));
                 response.setReceiver(s);
                 response.setSender(sender);
                 responses.add(response);
             }
-            questionIndex++;
+            questionIndex = (questionIndex + 1) % 23;
         } else {
-            FunctionResponse response = new FunctionResponse(false, null, null, usersList.get(playerIndex));
+            FunctionResponse response = new FunctionResponse(false, null, null, null, usersList.get(playerIndex));
             response.setReceiver(sender);
             responses.add(response);
         }
