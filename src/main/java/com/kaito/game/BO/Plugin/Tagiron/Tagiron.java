@@ -75,6 +75,7 @@ public class Tagiron implements GameExtra {
 
     @Override
     public List<BaseResponse> initGame(ArrayList<String> users) {
+        System.out.println(Arrays.toString(answerOrder));
         usersList = users;
         for (int i = 0; i < 4; i++) {
             if (i < users.size()) {
@@ -97,8 +98,11 @@ public class Tagiron implements GameExtra {
         String sender = guess.getSender();
         boolean roundFlag = sender.equals(usersList.get(playerIndex));
         if (roundFlag) {
-            Boolean guessFlag = Arrays.equals(guess.getAnswer().toArray(), answerOrder);
+            Boolean guessFlag = Arrays.toString(answerOrder).equals(guess.getAnswer().toString());
+            System.out.println(guessFlag);
+            System.out.println(Arrays.toString(guess.getAnswer().toArray()));
             playerIndex = (playerIndex + 1) % usersList.size();
+
             for (String s : usersList) {
                 GuessResponse response = new GuessResponse(true, guessFlag, guess.getAnswer(), usersList.get(playerIndex));
                 response.setReceiver(s);
