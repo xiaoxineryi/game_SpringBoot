@@ -14,7 +14,7 @@ public class Player {
     private List<Integer> cardIndex;
     private Card[] cardList;
 
-    public Info sumColor(String color) {
+    public List<Integer> sumColor(String color) {
         List<Integer> result = new ArrayList<>();
         int sum = 0;
         if (color == null) {
@@ -29,26 +29,26 @@ public class Player {
             }
         }
         result.add(sum);
-        return new Info(name, result);
+        return result;
     }
 
-    public Info sumLocation(int i, int j) {
+    public List<Integer> sumLocation(int i, int j) {
         List<Integer> result = new ArrayList<>();
         int sum = 0;
         for (; i < j; i++) {
             sum += cardList[i].getNum();
         }
         result.add(sum);
-        return new Info(name, result);
+        return result;
     }
 
-    public Info max_min() {
+    public List<Integer> max_min() {
         List<Integer> result = new ArrayList<>();
         result.add(cardList[3].getNum() - cardList[0].getNum());
-        return new Info(name, result);
+        return result;
     }
 
-    public Info locationNum(int num) {
+    public List<Integer> locationNum(int num) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             if (cardList[i].getNum() == num) {
@@ -58,10 +58,10 @@ public class Player {
         if (result.isEmpty()) {
             result.add(0);
         }
-        return new Info(name, result);
+        return result;
     }
 
-    public Info location(boolean flag) {
+    public List<Integer> location(boolean flag) {
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             if (flag) {
@@ -77,10 +77,10 @@ public class Player {
             }
         }
         result = new ArrayList<Integer>(new HashSet<Integer>(result));
-        return new Info(name, result);
+        return result;
     }
 
-    public Info numColor(String color, Boolean parity) {
+    public List<Integer> numColor(String color, Boolean parity) {
         List<Integer> result = new ArrayList<>();
         int num = 0;
         if (color == null) {
@@ -102,10 +102,10 @@ public class Player {
             }
         }
         result.add(num);
-        return new Info(name, result);
+        return result;
     }
 
-    public Info numSame() {
+    public List<Integer> numSame() {
         List<Integer> result = new ArrayList<>();
         int num = 0;
         for (int i = 0; i < 3; i++) {
@@ -117,6 +117,6 @@ public class Player {
             }
         }
         result.add(num);
-        return new Info(name, result);
+        return result;
     }
 }

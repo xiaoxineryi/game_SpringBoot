@@ -120,7 +120,7 @@ public class Tagiron implements GameExtra {
         String sender = function.getSender();
         boolean roundFlag = sender.equals(usersList.get(playerIndex));
         if (roundFlag) {
-            List<Info> results;
+            List<List<Integer>> results;
             if (functionNum < 12) {
                 results = location(functionNum);
             } else if (functionNum < 18) {
@@ -150,8 +150,8 @@ public class Tagiron implements GameExtra {
         return responses;
     }
 
-    private List<Info> sum(int function) {
-        List<Info> results = new ArrayList<>();
+    private List<List<Integer>> sum(int function) {
+        List<List<Integer>> results = new ArrayList<>();
         for (Player player : players) {
             switch (function) {
                 case 1:
@@ -177,8 +177,8 @@ public class Tagiron implements GameExtra {
         return results;
     }
 
-    private List<Info> location(int num) {
-        List<Info> results = new ArrayList<>();
+    private List<List<Integer>> location(int num) {
+        List<List<Integer>> results = new ArrayList<>();
         if (num < 10) {
             for (Player player : players) {
                 results.add(player.locationNum(num));
@@ -198,8 +198,8 @@ public class Tagiron implements GameExtra {
         return results;
     }
 
-    private List<Info> num(int num) {
-        List<Info> results = new ArrayList<>();
+    private List<List<Integer>> num(int num) {
+        List<List<Integer>> results = new ArrayList<>();
         for (Player player : players) {
             switch (num) {
                 case 1:
