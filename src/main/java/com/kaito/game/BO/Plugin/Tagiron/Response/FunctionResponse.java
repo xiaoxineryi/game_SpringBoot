@@ -14,4 +14,5 @@ public class FunctionResponse extends BaseResponse {
     List<List<Integer>> result;
     List<Integer> question;
     String nextPlayer;
+    Integer questionIndex;
 }

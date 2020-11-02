@@ -140,14 +140,14 @@ public class Tagiron implements GameExtra {
             question.remove((Integer) functionNum);
             question.add(questions.get(questionIndex));
             for (String s : usersList) {
-                FunctionResponse response = new FunctionResponse(true, name, results, question, usersList.get(playerIndex));
+                FunctionResponse response = new FunctionResponse(true, name, results, question, usersList.get(playerIndex), functionNum);
                 response.setReceiver(s);
                 response.setSender(sender);
                 responses.add(response);
             }
             questionIndex = (questionIndex + 1) % 23;
         } else {
-            FunctionResponse response = new FunctionResponse(false, null, null, null, usersList.get(playerIndex));
+            FunctionResponse response = new FunctionResponse(false, null, null, null, usersList.get(playerIndex), functionNum);
             response.setReceiver(sender);
             responses.add(response);
         }
