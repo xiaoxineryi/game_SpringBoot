@@ -1,0 +1,681 @@
+
+        <html xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:w="urn:schemas-microsoft-com:office:word"
+        xmlns="http://www.w3.org/TR/REC-html40">
+        <head><meta http-equiv=Content-Type content="text/html;  
+        charset=utf-8">
+        <style type="text/css">
+            table  
+            {  
+                border-collapse: collapse;
+                border: none;  
+                width: 100%;  
+            }  
+            td  
+            {  
+                border: solid #CCC 1px;  
+            }  
+            .codestyle{
+                word-break: break-all;
+                background:silver;mso-highlight:silver;
+            }
+        </style>
+        <meta name=ProgId content=Word.Document>
+        <meta name=Generator content="Microsoft Word 11">
+        <meta name=Originator content="Microsoft Word 11">
+        <xml><w:WordDocument><w:View>Print</w:View></xml></head>
+        <body><h1>1、用户管理操作</h1><div style="margin-left:20px;"><h2>1.1、登录login</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户登录接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>/account/login</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userName</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td style="text-align: left;">password</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>密码</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>  {
+    &quot;status&quot;: 200,
+    &quot;message&quot;:null,
+    &quot;data&quot;: {
+      &quot;userToken&quot;:123456,
+      &quot;userName&quot;:&quot;123&quot;
+    }
+  }</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userToken</td>
+<td style="text-align: left;">String</td>
+<td>存储在localStorage中用来以后的身份认证</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>1.2、注册register</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户注册接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>/account/register</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userName</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td style="text-align: left;">password</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>密码</td>
+</tr>
+<tr>
+<td style="text-align: left;">userEmail</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>邮箱</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;status&quot;: 200,
+    &quot;message&quot;:null,
+    &quot;data&quot;: {
+      &quot;userToken&quot;:123456,
+      &quot;userName&quot;:&quot;123&quot;
+    }
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userToken</td>
+<td style="text-align: left;">String</td>
+<td>token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>1.3、加好友addfriend</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户添加好友接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>account/addfriend</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userA</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td style="text-align: left;">userB</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">string</td>
+<td>用户名</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;status&quot;: 200,
+    &quot;message&quot;: null,
+    &quot;data&quot;: true
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">data</td>
+<td style="text-align: left;">boolen</td>
+<td>添加好友是否成功，成功true，失败false</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>1.4、好友列表friendList</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户好友列表</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>lobby/friendList</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>GET </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userName</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">String</td>
+<td>用户名</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;status&quot;: 200,
+    &quot;message&quot;: null,
+    &quot;data&quot;: {
+        &quot;onlineUsers&quot;: [],
+        &quot;offlineUsers&quot;: [
+           userName: &quot;cxz&quot;
+        ]
+    }
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">onlineUsers</td>
+<td style="text-align: left;">LinkedList</td>
+<td>在线好友</td>
+</tr>
+<tr>
+<td style="text-align: left;">offlineUsers</td>
+<td style="text-align: left;">LinkedList</td>
+<td>未在线好友</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div></div><h1>2、游戏房间操作</h1><div style="margin-left:20px;"><h2>2.1、创建房间create</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>创建房间</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>room/create</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">userName</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">String</td>
+<td>房间号</td>
+</tr>
+<tr>
+<td style="text-align: left;">gameType</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">int</td>
+<td>游戏类型</td>
+</tr>
+<tr>
+<td style="text-align: left;">maxNumber</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">int</td>
+<td>房间人数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;status&quot;: 200,
+    &quot;message&quot;: null,
+    &quot;data&quot;: {
+        &quot;roomID&quot;: 944,
+        &quot;tempNumber&quot;: 0,
+        &quot;maxNumber&quot;: 4,
+        &quot;type&quot;: 2,
+        &quot;users&quot;: []
+    }
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">gameType</td>
+<td style="text-align: left;">int</td>
+<td>游戏类别，1为沙漠淘金，2为逻辑对决</td>
+</tr>
+<tr>
+<td style="text-align: left;">roomID</td>
+<td style="text-align: left;">int</td>
+<td>房间号</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>2.2、查看所有房间getRooms</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>用户注册接口</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>room/getRooms</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>GET</li>
+</ul>
+<p><strong>参数：</strong> </p>
+<p>无</p>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;status&quot;: 200,
+    &quot;message&quot;: null,
+    &quot;data&quot;: [
+        {
+            &quot;roomID&quot;: 944,
+            &quot;tempNumber&quot;: 0,
+            &quot;maxNumber&quot;: 4,
+            &quot;type&quot;: 2,
+            &quot;users&quot;: []
+        }
+    ]
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">data</td>
+<td style="text-align: left;">数组</td>
+<td>所有房间的信息</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>2.3、开始游戏start</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>游戏开始</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>room/start</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>GET </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">roomID</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">int</td>
+<td>房间号</td>
+</tr>
+</tbody>
+</table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>{
+    &quot;status&quot;: 200,
+    &quot;message&quot;: null,
+    &quot;data&quot;: null
+}
+
+{
+  &quot;card&quot;: [
+    8,
+    11,
+    13,
+    19
+  ],
+  &quot;nextPlayer&quot;: &quot;cxz2&quot;,
+  &quot;question&quot;: [
+    19,
+    20,
+    5,
+    2,
+    1,
+    22
+  ],
+  &quot;receiver&quot;: &quot;cxz2&quot;
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">card</td>
+<td style="text-align: left;">int数组</td>
+<td>卡片的索引：<br> 0为红0，1为蓝0，<br>2为红1，3为蓝1。<br> 10和11为绿5。<br> 12为红6，13为蓝6。</td>
+</tr>
+<tr>
+<td style="text-align: left;">question</td>
+<td style="text-align: left;">int数组</td>
+<td>问题索引：<br> 0~9为相应卡片的位置。<br>10为颜色相同并相邻的板块位置。11为连续的数字板块位置。<br>12为所有数字的和。<br>13为蓝和，14为红和。<br>15左三和，16右三和。<br>17最大与最小的差。<br>18红色卡牌数目，19蓝色卡牌数目。<br>20偶数牌个数，21奇数牌个数。<br>22相同数字卡牌数目。</td>
+</tr>
+<tr>
+<td style="text-align: left;">nextPlayer</td>
+<td style="text-align: left;">String</td>
+<td>下一个回合的人</td>
+</tr>
+<tr>
+<td style="text-align: left;">receiver</td>
+<td style="text-align: left;">string</td>
+<td>接收者</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div><h2>2.4、游戏操作play</h2><div style="margin-left:20px;"><p><strong>简要描述：</strong> </p>
+<ul>
+<li>游戏操作</li>
+</ul>
+<p><strong>请求URL：</strong> </p>
+<ul>
+<li><code>room/play</code></li>
+</ul>
+<p><strong>请求方式：</strong></p>
+<ul>
+<li>POST </li>
+</ul>
+<p><strong>参数：</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">必选</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">roomID</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">int</td>
+<td>房间号</td>
+</tr>
+</tbody>
+</table>
+<p><strong>请求体</strong></p>
+<table width='100%' class='codestyle'><pre><code>type是请求类型：1为各函数操作，2为猜数。
+function是函数编号
+sender为发送人
+
+如1：
+{
+    &quot;type&quot;:&quot;1&quot;,
+    &quot;data&quot;:{
+        &quot;sender&quot;:&quot;cxz2&quot;,
+        &quot;function&quot;:10
+    }
+}
+
+answer为一数组，表示猜牌的索引。
+如2：
+{
+    &quot;type&quot;:&quot;2&quot;,
+    &quot;data&quot;:{
+        &quot;sender&quot;:&quot;cxz2&quot;,
+        &quot;answer&quot;:[4,5,18,19]
+    }
+}
+</code></pre></table>
+<p><strong>返回示例</strong></p>
+<table width='100%' class='codestyle'><pre><code>1返回示例：
+{
+  &quot;name&quot;: [
+    &quot;cxz2&quot;,
+    &quot;Computer1&quot;,
+    &quot;Computer2&quot;,
+    &quot;Computer3&quot;
+  ],
+  &quot;nextPlayer&quot;: &quot;cxz2&quot;,
+  &quot;question&quot;: [
+    20,
+    8,
+    11,
+    6,
+    5,
+    7
+  ],
+  &quot;receiver&quot;: &quot;cxz2&quot;,
+  &quot;result&quot;: [
+    [
+      3
+    ],
+    [
+      1
+    ],
+    [
+      3
+    ],
+    [
+      1
+    ]
+  ],
+  &quot;roundFlag&quot;: true,
+  &quot;sender&quot;: &quot;cxz2&quot;
+}
+
+2类型返回示例：猜对为true，猜错为false。
+{
+  &quot;answer&quot;: [
+    4,
+    5,
+    18,
+    19
+  ],
+  &quot;guessFlag&quot;: false,
+  &quot;nextPlayer&quot;: &quot;cxz2&quot;,
+  &quot;receiver&quot;: &quot;cxz2&quot;,
+  &quot;roundFlag&quot;: true,
+  &quot;sender&quot;: &quot;cxz2&quot;
+}</code></pre></table>
+<p><strong>返回参数说明</strong> </p>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">roundFlag</td>
+<td style="text-align: left;">boolen</td>
+<td>标识是否是当前玩家的回合</td>
+</tr>
+<tr>
+<td style="text-align: left;">nextPlayer</td>
+<td style="text-align: left;">String</td>
+<td>下一个回合的玩家</td>
+</tr>
+<tr>
+<td style="text-align: left;">question</td>
+<td style="text-align: left;">int</td>
+<td>新问题的编号</td>
+</tr>
+<tr>
+<td style="text-align: left;">sender</td>
+<td style="text-align: left;">String</td>
+<td>当前结果的提问玩家</td>
+</tr>
+<tr>
+<td style="text-align: left;">result</td>
+<td style="text-align: left;">一个数组里套了四个数组</td>
+<td>代表各自的信息。<br>示例10返回相同颜色且相邻的卡牌位置。</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead><tr style='background-color: rgb(0, 136, 204); color: rgb(255, 255, 255);'>
+<th style="text-align: left;">参数名</th>
+<th style="text-align: left;">类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">sender</td>
+<td style="text-align: left;">String</td>
+<td>当前结果的提问玩家</td>
+</tr>
+<tr>
+<td style="text-align: left;">answer</td>
+<td style="text-align: left;">int数组</td>
+<td>提问玩家的猜测序列</td>
+</tr>
+<tr>
+<td style="text-align: left;">roundFlag</td>
+<td style="text-align: left;">boolen</td>
+<td>标识是否是当前玩家的回合</td>
+</tr>
+<tr>
+<td style="text-align: left;">guessFlag</td>
+<td style="text-align: left;">boolen</td>
+<td>标识猜测序列是否正确</td>
+</tr>
+<tr>
+<td style="text-align: left;">nextPlayer</td>
+<td style="text-align: left;">String</td>
+<td>下一个回合的玩家</td>
+</tr>
+</tbody>
+</table>
+<p><strong>备注</strong> </p>
+<ul>
+<li>更多返回错误代码请看首页的错误代码描述</li>
+</ul></div></div></body></html>
